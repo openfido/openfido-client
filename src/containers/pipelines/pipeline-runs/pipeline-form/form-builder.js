@@ -1,18 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import QmarkOutlined from 'icons/QmarkOutlined';
 
-const FormBuilder = (props) => {
+const FormBuilder = ({ field, fieldName }) => {
 // assign required values to each element for click handler
-  const { field, fieldName } = props;
-  console.log(props);
+  console.log(field, fieldName);
   return (
     <>
       <label>
         {fieldName}
+        <QmarkOutlined />
       </label>
-      <input type="text" id={fieldName} name={fieldName} />
+      <input type="text" id={fieldName} name={fieldName} value={field.default} />
       <br />
     </>
   );
+};
+
+FormBuilder.propTypes = {
+  field: PropTypes.shape({ root: PropTypes.string.isRequired }).isRequired,
+  fieldName: PropTypes.string.isRequired,
 };
 
 export default FormBuilder;
