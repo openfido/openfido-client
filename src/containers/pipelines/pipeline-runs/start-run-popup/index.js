@@ -161,14 +161,14 @@ const StartRunPopup = ({
   const [config, setConfig] = useState({});
 
   useEffect(() => {
-    // magic happens here
+    // uses the passed-in URL to grab the config file
     gitApi.getManifest(configUrl)
       .then((response) => {
         setConfig(response.config);
       }, (error) => {
         console.log(error);
       });
-  }, []);
+  }, [configUrl]);
 
   const onInputsChangedOrDropped = (e) => {
     e.preventDefault();

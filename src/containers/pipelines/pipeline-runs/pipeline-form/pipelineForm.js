@@ -7,11 +7,12 @@ import {
 
 import FormBuilder from './form-builder';
 
-const PipelineFormStyled = styled.div`
-  width: 90%;
+const PipelineFormStyled = styled.form`
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: left;
+  padding-bottom: 10px;
 `;
 
 const PipelineForm = ({ config }) => {
@@ -31,13 +32,13 @@ const PipelineForm = ({ config }) => {
 
   if (toCsv.length > 0) {
     return (
-      <form>
+      <PipelineFormStyled>
         {toCsv.map((item) => {
           const field = config[item];
           return <FormBuilder field={field} fieldName={item} />;
         })}
-        <button type="submit">Submit form</button>
-      </form>
+        <StyledButton type="submit">Submit form</StyledButton>
+      </PipelineFormStyled>
     );
   }
   return (
