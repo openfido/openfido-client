@@ -61,7 +61,6 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
       url: e.target.dataset.url,
       name: e.target.dataset.fullname,
     };
-
     gitApi.getManifest(url.url)
       .then((response) => {
         setFields({

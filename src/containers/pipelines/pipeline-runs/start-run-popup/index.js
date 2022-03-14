@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import { requestStartPipelineRun } from 'services';
 import {
@@ -18,7 +17,8 @@ import {
   StyledText,
 } from 'styles/app';
 import colors from 'styles/colors';
-import PipelineForm from 'util/pipelineForm';
+import gitApi from 'util/api-github';
+import PipelineForm from '../pipeline-form/pipelineForm';
 
 const Modal = styled(StyledModal)`
   h2 {
@@ -152,19 +152,23 @@ export const Artifact = styled.div`
 const StartRunPopup = ({
   handleOk, handleCancel, pipeline_uuid, configUrl, piplineUrl,
 }) => {
-  // get config from github
-  // console.log( useSelector((state) => state.pipelines.currentOpenfidoStartConfig) )
-  const [data, setData] = useState({});
-  useEffect(() => {
-    axios.get(configUrl).then((response) => {
-      setData(response.data);
-    });
-  }, [configUrl]);
   const currentOrg = useSelector((state) => state.user.currentOrg);
   const dispatch = useDispatch();
 
   const inputFiles = useSelector((state) => state.pipelines.inputFiles);
   const [uploadBoxDragged, setUploadBoxDragged] = useState(false);
+
+  const [config, setConfig] = useState({});
+
+  useEffect(() => {
+    // magic happens here
+    gitApi.getManifest(configUrl)
+      .then((response) => {
+        setConfig(response.config);
+      }, (error) => {
+        console.log(error);
+      });
+  }, []);
 
   const onInputsChangedOrDropped = (e) => {
     e.preventDefault();
@@ -247,7 +251,7 @@ const StartRunPopup = ({
     >
       <StyledForm onSubmit={onStartRunClicked}>
         <PipelineForm
-          data={data}
+          config={config}
           onInputFormSubmit={(e, arrayBuffer, fileName) => handleInputFormSubmit(e, arrayBuffer, fileName)}
         />
         <UploadSection>
