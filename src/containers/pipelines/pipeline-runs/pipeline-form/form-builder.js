@@ -73,6 +73,34 @@ const FormBuilder = ({ field, fieldName }) => {
         <br />
       </>
     );
+  } if (field.input_type === 'str optional') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          (optional)
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
+        </label>
+        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <br />
+      </>
+    );
+  } if (field.input_type === 'str required') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          (required)
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
+        </label>
+        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <br />
+      </>
+    );
   } if (field.input_type === 'int') {
     return (
       <>
@@ -123,39 +151,25 @@ const FormBuilder = ({ field, fieldName }) => {
         <br />
       </>
     );
-  } if (field.input_type === 'str optional') {
-    return (
-      <>
-        <label>
-          {fieldName}
-          (optional)
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
-        </label>
-        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
-        <br />
-      </>
-    );
-  } if (field.input_type === 'str required') {
-    return (
-      <>
-        <label>
-          {fieldName}
-          (required)
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
-        </label>
-        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
-        <br />
-      </>
-    );
   } if (field.input_type === 'float') {
     return (
       <>
         <label>
           {fieldName}
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
+        </label>
+        <input type="number" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <br />
+      </>
+    );
+  } if (field.input_type === 'float required') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          (required)
           <AppDropdown overlay={menu} trigger="click">
             <QmarkOutlined />
           </AppDropdown>
