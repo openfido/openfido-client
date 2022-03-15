@@ -51,8 +51,10 @@ const AppDropdownMenuItem = styled(Menu.Item)`
   }
 `;
 
-const FormBuilder = ({ field, fieldName }) => {
-// assign required values to each element for click handler
+const FormBuilder = ({
+  field, fieldName, handleChange, value,
+}) => {
+  // simple dropdown tooltip
   const menu = (
     <AppDropdownMenu>
       <AppDropdownMenuItem>
@@ -60,6 +62,8 @@ const FormBuilder = ({ field, fieldName }) => {
       </AppDropdownMenuItem>
     </AppDropdownMenu>
   );
+
+  // Generates fields based on valid input_type, along with associated functionality
   if (field.input_type === 'str') {
     return (
       <>
@@ -69,7 +73,14 @@ const FormBuilder = ({ field, fieldName }) => {
             <QmarkOutlined />
           </AppDropdown>
         </label>
-        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <input
+          type="text"
+          id={fieldName}
+          name={fieldName}
+          defaultValue={field.default}
+          value={value.value}
+          onChange={(e) => handleChange(e)}
+        />
         <br />
       </>
     );
@@ -83,7 +94,14 @@ const FormBuilder = ({ field, fieldName }) => {
             <QmarkOutlined />
           </AppDropdown>
         </label>
-        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <input
+          type="text"
+          id={fieldName}
+          name={fieldName}
+          defaultValue={field.default}
+          value={value.value}
+          onChange={(e) => handleChange(e)}
+        />
         <br />
       </>
     );
@@ -97,7 +115,14 @@ const FormBuilder = ({ field, fieldName }) => {
             <QmarkOutlined />
           </AppDropdown>
         </label>
-        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <input
+          type="text"
+          id={fieldName}
+          name={fieldName}
+          defaultValue={field.default}
+          value={value.value}
+          onChange={(e) => handleChange(e)}
+        />
         <br />
       </>
     );
@@ -147,7 +172,14 @@ const FormBuilder = ({ field, fieldName }) => {
             <QmarkOutlined />
           </AppDropdown>
         </label>
-        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <input
+          type="text"
+          id={fieldName}
+          name={fieldName}
+          defaultValue={field.default}
+          value={value.value}
+          onChange={(e) => handleChange(e)}
+        />
         <br />
       </>
     );
@@ -160,7 +192,14 @@ const FormBuilder = ({ field, fieldName }) => {
             <QmarkOutlined />
           </AppDropdown>
         </label>
-        <input type="number" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <input
+          type="number"
+          id={fieldName}
+          name={fieldName}
+          defaultValue={field.default}
+          value={value.value}
+          onChange={(e) => handleChange(e)}
+        />
         <br />
       </>
     );
@@ -174,7 +213,14 @@ const FormBuilder = ({ field, fieldName }) => {
             <QmarkOutlined />
           </AppDropdown>
         </label>
-        <input type="number" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <input
+          type="number"
+          id={fieldName}
+          name={fieldName}
+          defaultValue={field.default}
+          value={value.value}
+          onChange={(e) => handleChange(e)}
+        />
         <br />
       </>
     );
@@ -200,6 +246,11 @@ FormBuilder.propTypes = {
     description: PropTypes.string.isRequired,
   }).isRequired,
   fieldName: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  value: PropTypes.shape({
+    root: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default FormBuilder;

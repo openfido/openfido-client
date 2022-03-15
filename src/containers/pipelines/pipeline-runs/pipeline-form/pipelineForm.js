@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CSVLink, CSVDownload } from 'react-csv';
@@ -6,6 +6,7 @@ import {
   StyledButton,
 } from 'styles/app';
 
+import formReducer from 'reducers/configform';
 import FormBuilder from './form-builder';
 
 const PipelineFormStyled = styled.form`
@@ -16,23 +17,53 @@ const PipelineFormStyled = styled.form`
   padding-bottom: 10px;
 `;
 
+const DEFAULT_STATE = {};
+
 const PipelineForm = ({ config }) => {
-  const [toCsv, setCsv] = useState([]);
+  const [formBuilder, setFormBuilder] = useState([]);
   const [isHidden, setIsHidden] = useState(false);
+  const [toCsv, dispatch] = useReducer(formReducer, DEFAULT_STATE);
+
+  // generates the provided fieldnames into an array
+  // prepares form for csv conversion and creates trackable state
   useEffect(() => {
     const configMapable = Object.keys(config);
-    setCsv(configMapable);
+    if (configMapable === undefined) {
+      setFormBuilder([]);
+    } else {
+      const cleanConfig = config;
+      configMapable.map((item) => {
+        cleanConfig[item].value = cleanConfig[item].default;
+        delete cleanConfig[item].default;
+        return item;
+      });
+      dispatch({
+        type: 'HANDLE INITIAL UPDATE',
+        payload: cleanConfig,
+      });
+      setFormBuilder(configMapable);
+    }
   }, [config]);
-  const clickHide = (e) => {
+
+  const clickHide = () => {
     // magic button to hide/unhide form
     setIsHidden(!isHidden);
+  };
+
+  const handleChange = (e) => {
+    dispatch({
+      type: 'HANDLE INPUT TEXT',
+      field: e.target.id,
+      payload: e.target.value,
+    });
   };
 
   const prioritizeAttached = () => {
     // magic function to check if a config.csv already attached
   };
 
-  if (toCsv.length > 0) {
+  // generates a form based on the length of the config file
+  if (formBuilder.length > 0) {
     return (
       <PipelineFormStyled>
         <StyledButton
@@ -46,9 +77,17 @@ const PipelineForm = ({ config }) => {
           </div>
         </StyledButton>
         <div style={isHidden ? {} : { display: 'none' }}>
-          {toCsv.map((item) => {
+          {formBuilder.map((item) => {
             const field = config[item];
-            return <FormBuilder key={item} field={field} fieldName={item} />;
+            return (
+              <FormBuilder
+                key={item}
+                field={field}
+                fieldName={item}
+                value={toCsv[item]}
+                handleChange={handleChange}
+              />
+            );
           })}
           <StyledButton type="submit">Submit form</StyledButton>
         </div>
