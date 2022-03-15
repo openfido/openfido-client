@@ -18,12 +18,14 @@ const PipelineFormStyled = styled.form`
 
 const PipelineForm = ({ config }) => {
   const [toCsv, setCsv] = useState([]);
+  const [isHidden, setIsHidden] = useState(false);
   useEffect(() => {
     const configMapable = Object.keys(config);
     setCsv(configMapable);
   }, [config]);
   const clickHide = (e) => {
     // magic button to hide/unhide form
+    setIsHidden(!isHidden);
   };
 
   const prioritizeAttached = () => {
@@ -33,11 +35,23 @@ const PipelineForm = ({ config }) => {
   if (toCsv.length > 0) {
     return (
       <PipelineFormStyled>
-        {toCsv.map((item) => {
-          const field = config[item];
-          return <FormBuilder field={field} fieldName={item} />;
-        })}
-        <StyledButton type="submit">Submit form</StyledButton>
+        <StyledButton
+          type="text"
+          size="middle"
+          textcolor="lightBlue"
+          onClick={(e) => clickHide(e)}
+        >
+          <div>
+            <strong>Manually fill the configuration form</strong>
+          </div>
+        </StyledButton>
+        <div style={isHidden ? {} : { display: 'none' }}>
+          {toCsv.map((item) => {
+            const field = config[item];
+            return <FormBuilder key={item} field={field} fieldName={item} />;
+          })}
+          <StyledButton type="submit">Submit form</StyledButton>
+        </div>
       </PipelineFormStyled>
     );
   }
@@ -52,8 +66,8 @@ const PipelineForm = ({ config }) => {
 
 FormBuilder.propTypes = {
   config: PropTypes.shape({
-    root: PropTypes.string.isRequired,
-  }).isRequired,
+    root: PropTypes.string,
+  }),
 };
 
 export default PipelineForm;

@@ -60,7 +60,6 @@ const FormBuilder = ({ field, fieldName }) => {
       </AppDropdownMenuItem>
     </AppDropdownMenu>
   );
-  console.log(field, fieldName);
   if (field.input_type === 'str') {
     return (
       <>
@@ -87,6 +86,20 @@ const FormBuilder = ({ field, fieldName }) => {
         <br />
       </>
     );
+  } if (field.input_type === 'int required') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          (required)
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
+        </label>
+        <input type="number" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <br />
+      </>
+    );
   } if (field.input_type === 'title') {
     return (
       <>
@@ -101,6 +114,7 @@ const FormBuilder = ({ field, fieldName }) => {
       <>
         <label>
           {fieldName}
+          (true/false)
           <AppDropdown overlay={menu} trigger="click">
             <QmarkOutlined />
           </AppDropdown>
@@ -142,7 +156,6 @@ const FormBuilder = ({ field, fieldName }) => {
       <>
         <label>
           {fieldName}
-          (required)
           <AppDropdown overlay={menu} trigger="click">
             <QmarkOutlined />
           </AppDropdown>
