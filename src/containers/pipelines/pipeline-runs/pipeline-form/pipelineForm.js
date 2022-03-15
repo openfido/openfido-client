@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, {
+  useState, useEffect, useReducer, useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CSVLink, CSVDownload } from 'react-csv';
@@ -20,9 +22,14 @@ const PipelineFormStyled = styled.form`
 const DEFAULT_STATE = {};
 
 const PipelineForm = ({ config }) => {
+  // used to prepare the form for conversion
   const [formBuilder, setFormBuilder] = useState([]);
   const [isHidden, setIsHidden] = useState(false);
   const [toCsv, dispatch] = useReducer(formReducer, DEFAULT_STATE);
+
+  // used for when submitted
+  const [convertedCsv, setConvertedCsv] = useState([]);
+  const csvLink = useRef();
 
   // generates the provided fieldnames into an array
   // prepares form for csv conversion and creates trackable state
@@ -58,8 +65,26 @@ const PipelineForm = ({ config }) => {
     });
   };
 
-  const prioritizeAttached = () => {
-    // magic function to check if a config.csv already attached
+  const handleSubmit = async () => {
+    // convert toCsv into csv format and store in a variable
+    const configMapable = Object.keys(config);
+    const temp = [];
+    if (configMapable === undefined) {
+      alert('There was an error with the configuration file');
+    } else {
+      configMapable.map((item) => {
+        if (toCsv[item].input_type === 'title') {
+          return item;
+        }
+        temp.push([
+          item, toCsv[item].value,
+        ]);
+        return item;
+      });
+      await setConvertedCsv(temp);
+      console.log(convertedCsv);
+      csvLink.current.link.click();
+    }
   };
 
   // generates a form based on the length of the config file
@@ -89,7 +114,14 @@ const PipelineForm = ({ config }) => {
               />
             );
           })}
-          <StyledButton type="submit">Submit form</StyledButton>
+          <StyledButton type="submit" onClick={() => handleSubmit()}>Submit form</StyledButton>
+          <CSVLink
+            data={convertedCsv}
+            filename="config.csv"
+            className="hidden"
+            ref={csvLink}
+            target="_blank"
+          />
         </div>
       </PipelineFormStyled>
     );
