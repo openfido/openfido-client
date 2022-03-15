@@ -5,20 +5,93 @@ import QmarkOutlined from 'icons/QmarkOutlined';
 const FormBuilder = ({ field, fieldName }) => {
 // assign required values to each element for click handler
   console.log(field, fieldName);
+  if (field.input_type === 'str') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          <QmarkOutlined />
+        </label>
+        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <br />
+      </>
+    );
+  } if (field.input_type === 'int') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          <QmarkOutlined />
+        </label>
+        <input type="number" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <br />
+      </>
+    );
+  } if (field.input_type === 'title') {
+    return (
+      <>
+        <h4 style={{ textDecoration: 'underline' }}>
+          {fieldName}
+        </h4>
+        <br />
+      </>
+    );
+  } if (field.input_type === 'boolean') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          <QmarkOutlined />
+        </label>
+        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <br />
+      </>
+    );
+  } if (field.input_type === 'str optional') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          (optional)
+          <QmarkOutlined />
+        </label>
+        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <br />
+      </>
+    );
+  } if (field.input_type === 'str required') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          (required)
+          <QmarkOutlined />
+        </label>
+        <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <br />
+      </>
+    );
+  }
   return (
     <>
-      <label>
+      <div>
+        Invalid configuration for the
+        {' '}
         {fieldName}
-        <QmarkOutlined />
-      </label>
-      <input type="text" id={fieldName} name={fieldName} value={field.default} />
-      <br />
+        {' '}
+        field.
+      </div>
     </>
   );
 };
 
 FormBuilder.propTypes = {
-  field: PropTypes.shape({ root: PropTypes.string.isRequired }).isRequired,
+  field: PropTypes.shape({
+    root: PropTypes.string.isRequired,
+    input_type: PropTypes.string.isRequired,
+    default: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+  }).isRequired,
   fieldName: PropTypes.string.isRequired,
 };
 

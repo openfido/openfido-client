@@ -17,9 +17,8 @@ const PipelineFormStyled = styled.form`
 
 const PipelineForm = ({ config }) => {
   const [toCsv, setCsv] = useState([]);
-  let configMapable = [];
   useEffect(() => {
-    configMapable = Object.keys(config);
+    const configMapable = Object.keys(config);
     setCsv(configMapable);
   }, [config]);
   const clickHide = (e) => {
