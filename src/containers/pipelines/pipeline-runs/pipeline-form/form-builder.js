@@ -1,16 +1,74 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Dropdown, Menu } from 'antd';
+import colors from 'styles/colors';
 import QmarkOutlined from 'icons/QmarkOutlined';
+
+const AppDropdown = styled(Dropdown)`
+  user-select: none;
+  z-index: 3;
+  .anticon {
+    border-radius: 50%;
+    height: 14px;
+    width: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      width: 10px;
+      height: 6px;
+    }
+  }
+  &:hover .anticon {
+    background-color: ${colors.lightGrey};
+  }
+`;
+
+const AppDropdownMenu = styled(Menu)`
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.05));
+  box-shadow: none;
+  border-radius: 3px;
+  padding: 0;
+  min-width: 87px;
+  right: 16px;
+  right: 1rem;
+`;
+
+const AppDropdownMenuItem = styled(Menu.Item)`
+  padding: 10px;
+  padding: 0.625rem;
+  text-align: center;
+  a {
+    color: ${colors.lightBlue};
+    font-weight: 500;
+    &:hover {
+      color: ${colors.blue};
+    }
+  }
+  &:hover {
+    background-color: transparent;
+  }
+`;
 
 const FormBuilder = ({ field, fieldName }) => {
 // assign required values to each element for click handler
+  const menu = (
+    <AppDropdownMenu>
+      <AppDropdownMenuItem>
+        {field.description}
+      </AppDropdownMenuItem>
+    </AppDropdownMenu>
+  );
   console.log(field, fieldName);
   if (field.input_type === 'str') {
     return (
       <>
         <label>
           {fieldName}
-          <QmarkOutlined />
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
         </label>
         <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
         <br />
@@ -21,7 +79,9 @@ const FormBuilder = ({ field, fieldName }) => {
       <>
         <label>
           {fieldName}
-          <QmarkOutlined />
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
         </label>
         <input type="number" id={fieldName} name={fieldName} defaultValue={field.default} />
         <br />
@@ -41,7 +101,9 @@ const FormBuilder = ({ field, fieldName }) => {
       <>
         <label>
           {fieldName}
-          <QmarkOutlined />
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
         </label>
         <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
         <br />
@@ -53,7 +115,9 @@ const FormBuilder = ({ field, fieldName }) => {
         <label>
           {fieldName}
           (optional)
-          <QmarkOutlined />
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
         </label>
         <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
         <br />
@@ -65,9 +129,25 @@ const FormBuilder = ({ field, fieldName }) => {
         <label>
           {fieldName}
           (required)
-          <QmarkOutlined />
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
         </label>
         <input type="text" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <br />
+      </>
+    );
+  } if (field.input_type === 'float') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          (required)
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
+        </label>
+        <input type="number" id={fieldName} name={fieldName} defaultValue={field.default} />
         <br />
       </>
     );

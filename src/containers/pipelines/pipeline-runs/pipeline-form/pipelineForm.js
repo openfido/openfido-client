@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { CSVLink, CSVDownload } from 'react-csv';
 import {
@@ -47,6 +48,12 @@ const PipelineForm = ({ config }) => {
       Please create the required file in the pipeline&apos;s repository or proceed with manual upload.
     </div>
   );
+};
+
+FormBuilder.propTypes = {
+  config: PropTypes.shape({
+    root: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default PipelineForm;
