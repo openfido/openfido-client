@@ -2,6 +2,7 @@ import React, {
   useState, useEffect, useReducer, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
+import { Blob } from 'buffer';
 import styled from 'styled-components';
 import { CSVLink } from 'react-csv';
 import {
@@ -70,7 +71,7 @@ const PipelineForm = ({ config, onInputFormSubmit }) => {
     const configMapable = Object.keys(config);
     const temp = [];
     if (configMapable === undefined) {
-      alert('There was an error with the configuration file');
+      alert('There was an error with the configuration file'); // eslint-disable-line
     } else {
       configMapable.map((item) => {
         if (toCsv[item].input_type === 'title') {
