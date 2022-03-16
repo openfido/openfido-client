@@ -66,7 +66,7 @@ const PipelineForm = ({ config, onInputFormSubmit }) => {
   };
 
   const handleSubmit = async () => {
-    // convert toCsv into csv format and store in a variable
+    // convert toCsv into csv format, downloads copy of csv file and automatically attaches form
     const configMapable = Object.keys(config);
     const temp = [];
     if (configMapable === undefined) {
@@ -86,7 +86,6 @@ const PipelineForm = ({ config, onInputFormSubmit }) => {
         temp.map((e) => e.join(',')).join('\n')}`;
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       onInputFormSubmit(blob, 'config.csv');
-      console.log(blob);
       csvLink.current.link.click();
     }
   };
