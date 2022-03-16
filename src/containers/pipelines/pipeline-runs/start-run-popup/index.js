@@ -219,9 +219,14 @@ const StartRunPopup = ({
     dispatch(clearInputFiles());
   };
 
-  const handleInputFormSubmit = async (e, data, fileName) => {
-    e.preventDefault();
-    await dispatch(uploadInputFile(currentOrg, pipeline_uuid, fileName, data));
+  const handleInputFormSubmit = async (data, fileName) => {
+    const fileReader = new window.FileReader();
+    fileReader.onload = () => {
+      console.log('leggoo', currentOrg, pipeline_uuid, fileName, fileReader.result);
+      dispatch(uploadInputFile(currentOrg, pipeline_uuid, fileName, fileReader.result));
+    };
+
+    fileReader.readAsArrayBuffer(data);
   };
 
   const handleOpenPiplineClick = () => {

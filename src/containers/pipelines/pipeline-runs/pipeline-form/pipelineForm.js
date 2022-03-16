@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { CSVLink, CSVDownload } from 'react-csv';
+import { CSVLink } from 'react-csv';
 import {
   StyledButton,
 } from 'styles/app';
@@ -21,7 +21,7 @@ const PipelineFormStyled = styled.form`
 
 const DEFAULT_STATE = {};
 
-const PipelineForm = ({ config }) => {
+const PipelineForm = ({ config, onInputFormSubmit }) => {
   // used to prepare the form for conversion
   const [formBuilder, setFormBuilder] = useState([]);
   const [isHidden, setIsHidden] = useState(false);
@@ -34,10 +34,10 @@ const PipelineForm = ({ config }) => {
   // generates the provided fieldnames into an array
   // prepares form for csv conversion and creates trackable state
   useEffect(() => {
-    const configMapable = Object.keys(config);
-    if (configMapable === undefined) {
+    if (config === undefined) {
       setFormBuilder([]);
     } else {
+      const configMapable = Object.keys(config);
       const cleanConfig = config;
       configMapable.map((item) => {
         cleanConfig[item].value = cleanConfig[item].default;
@@ -82,7 +82,11 @@ const PipelineForm = ({ config }) => {
         return item;
       });
       await setConvertedCsv(temp);
-      console.log(convertedCsv);
+      const csvContent = `data:text/csv;charset=utf-8,${
+        temp.map((e) => e.join(',')).join('\n')}`;
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      onInputFormSubmit(blob, 'config.csv');
+      console.log(blob);
       csvLink.current.link.click();
     }
   };
@@ -135,10 +139,11 @@ const PipelineForm = ({ config }) => {
   );
 };
 
-FormBuilder.propTypes = {
+PipelineForm.propTypes = {
   config: PropTypes.shape({
     root: PropTypes.string,
-  }),
+  }).isRequired,
+  onInputFormSubmit: PropTypes.func.isRequired,
 };
 
 export default PipelineForm;
