@@ -60,18 +60,27 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
     const url = {
       url: e.target.dataset.url,
       name: e.target.dataset.fullname,
+      description: e.target.dataset.description,
     };
     gitApi.getManifest(url.url)
       .then((response) => {
         setFields({
           name: url.name,
-          description: response.description,
+          description: url.description,
           docker_image_url: response.docker,
           repository_ssh_url: response.git,
           repository_branch: response.branch,
           repository_script: response.script,
         });
       }, (error) => {
+        setFields({
+          name: 'Error',
+          description: '',
+          docker_image_url: '',
+          repository_ssh_url: '',
+          repository_branch: '',
+          repository_script: '',
+        });
         console.log(error);
       });
   };

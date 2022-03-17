@@ -2,7 +2,7 @@ import React, {
   useState, useEffect, useReducer, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
-import { Blob } from 'buffer';
+// import { Blob } from 'buffer';
 import styled from 'styled-components';
 import { CSVLink } from 'react-csv';
 import {
@@ -22,7 +22,9 @@ const PipelineFormStyled = styled.form`
 
 const DEFAULT_STATE = {};
 
-const PipelineForm = ({ config, onInputFormSubmit }) => {
+const PipelineForm = ({ config, formType, onInputFormSubmit}) => {
+  const [fType, setFormType] = useState(undefined);
+  const [fName, setFormName] = useState(undefined);
   // used to prepare the form for conversion
   const [formBuilder, setFormBuilder] = useState([]);
   const [isHidden, setIsHidden] = useState(false);
@@ -31,6 +33,13 @@ const PipelineForm = ({ config, onInputFormSubmit }) => {
   // used for when submitted
   const [convertedCsv, setConvertedCsv] = useState([]);
   const csvLink = useRef();
+
+  useEffect(() => {
+    const [fname, type] = formType;
+    setFormName(fname);
+    setFormType(type);
+    console.log('HMM', formType);
+  }, [formType]);
 
   // generates the provided fieldnames into an array
   // prepares form for csv conversion and creates trackable state
@@ -42,7 +51,6 @@ const PipelineForm = ({ config, onInputFormSubmit }) => {
       const cleanConfig = config;
       configMapable.map((item) => {
         cleanConfig[item].value = cleanConfig[item].default;
-        delete cleanConfig[item].default;
         return item;
       });
       dispatch({
@@ -66,6 +74,35 @@ const PipelineForm = ({ config, onInputFormSubmit }) => {
     });
   };
 
+  // const formValidator = (configMapable) => {
+  //   // do magic;
+  //   let passing = true;
+  //   for (let i = 0; i < configMapable.length; i += 1) {
+  //     console.log(toCsv[configMapable[i]]);
+  //     if (toCsv[configMapable[i]].input_type.contains('required')) {
+  //       if (toCsv[configMapable[i]].value.length === 0) {
+  //         alert(`Please enter a value in the ${configMapable[i]} field`);
+  //         passing = false;
+  //         break;
+  //       }
+  //     }
+  //   }
+  //   return passing;
+  // }; if (formValidator(configMapable))
+
+  // const downloadRcFile = (text) => {
+  //   const file = new Blob([text], {
+  //     type: 'text/plain',
+  //   });
+  //   console.log(text, file);
+  //   const encodedUri = encodeURI(text);
+  //   const link = document.createElement('a');
+  //   link.setAttribute('href', encodedUri);
+  //   link.setAttribute('download', 'my_data.rc');
+  //   document.body.appendChild(link); // Required for FF
+  //   link.click(); // This will download the data file named "my_data.csv".
+  // };
+
   const handleSubmit = async () => {
     // convert toCsv into csv format, downloads copy of csv file and automatically attaches form
     const configMapable = Object.keys(config);
@@ -86,6 +123,7 @@ const PipelineForm = ({ config, onInputFormSubmit }) => {
       const csvContent = `data:text/csv;charset=utf-8,${
         temp.map((e) => e.join(',')).join('\n')}`;
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      // downloadRcFile(csvContent);
       onInputFormSubmit(blob, 'config.csv');
       csvLink.current.link.click();
     }
@@ -144,6 +182,9 @@ PipelineForm.propTypes = {
     root: PropTypes.string,
   }).isRequired,
   onInputFormSubmit: PropTypes.func.isRequired,
+  formType: PropTypes.shape({
+    root: PropTypes.string,
+  }).isRequired,
 };
 
 export default PipelineForm;

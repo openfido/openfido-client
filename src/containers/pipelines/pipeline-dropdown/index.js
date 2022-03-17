@@ -63,6 +63,7 @@ const PipelineDropdown = (updateFromDropdown) => {
       full_name: '',
       url: '',
       id: '',
+      description: '',
     },
   ]);
 

@@ -77,7 +77,6 @@ const FormBuilder = ({
           type="text"
           id={fieldName}
           name={fieldName}
-          defaultValue={field.default}
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
@@ -98,7 +97,6 @@ const FormBuilder = ({
           type="text"
           id={fieldName}
           name={fieldName}
-          defaultValue={field.default}
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
@@ -119,7 +117,6 @@ const FormBuilder = ({
           type="text"
           id={fieldName}
           name={fieldName}
-          defaultValue={field.default}
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
@@ -135,7 +132,12 @@ const FormBuilder = ({
             <QmarkOutlined />
           </AppDropdown>
         </label>
-        <input type="number" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <input
+          type="number"
+          id={fieldName}
+          name={fieldName}
+          value={value.value}
+        />
         <br />
       </>
     );
@@ -149,7 +151,12 @@ const FormBuilder = ({
             <QmarkOutlined />
           </AppDropdown>
         </label>
-        <input type="number" id={fieldName} name={fieldName} defaultValue={field.default} />
+        <input
+          type="number"
+          id={fieldName}
+          name={fieldName}
+          onChange={(e) => handleChange(e)}
+        />
         <br />
       </>
     );
@@ -176,7 +183,6 @@ const FormBuilder = ({
           type="text"
           id={fieldName}
           name={fieldName}
-          defaultValue={field.default}
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
@@ -196,7 +202,6 @@ const FormBuilder = ({
           type="number"
           id={fieldName}
           name={fieldName}
-          defaultValue={field.default}
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
@@ -217,7 +222,6 @@ const FormBuilder = ({
           type="number"
           id={fieldName}
           name={fieldName}
-          defaultValue={field.default}
           value={value.value}
           onChange={(e) => handleChange(e)}
         />

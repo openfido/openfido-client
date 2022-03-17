@@ -158,13 +158,19 @@ const StartRunPopup = ({
   const inputFiles = useSelector((state) => state.pipelines.inputFiles);
   const [uploadBoxDragged, setUploadBoxDragged] = useState(false);
 
-  const [config, setConfig] = useState({});
+  const [manifest, setManifest] = useState(null);
+  const [manual, setManual] = useState([]);
 
   useEffect(() => {
-    // uses the passed-in URL to grab the config file
+    // uses the passed-in URL to grab the manifest
+    // Object.keys(response.manual) to build array
+    // Use .map((key) => {}) of result to build multiple forms
+    // Pass in the correct response.manual[key] value to build correct form type
     gitApi.getManifest(configUrl)
       .then((response) => {
-        setConfig(response.config);
+        console.log(response);
+        setManifest(response);
+        setManual(Object.keys(response.manual));
       }, (error) => {
         console.log(error);
       });
@@ -222,7 +228,6 @@ const StartRunPopup = ({
   const handleInputFormSubmit = async (data, fileName) => {
     const fileReader = new window.FileReader();
     fileReader.onload = () => {
-      console.log('leggoo', currentOrg, pipeline_uuid, fileName, fileReader.result);
       dispatch(uploadInputFile(currentOrg, pipeline_uuid, fileName, fileReader.result));
     };
 
@@ -255,10 +260,23 @@ const StartRunPopup = ({
       title="Start a run"
     >
       <StyledForm onSubmit={onStartRunClicked}>
-        <PipelineForm
-          config={config}
-          onInputFormSubmit={(e, arrayBuffer, fileName) => handleInputFormSubmit(e, arrayBuffer, fileName)}
-        />
+        {
+          manual.map((item) => {
+            // do a thing
+            console.log(item, manifest[item], manifest.manual[item]);
+            if (item === undefined) {
+              return <div />;
+            }
+            return (
+              <PipelineForm
+                config={manifest.config}
+                key={item}
+                formType={[item, manifest.manual[item]]}
+                onInputFormSubmit={(arrayBuffer, fileName) => handleInputFormSubmit(arrayBuffer, fileName)}
+              />
+            );
+          })
+        }
         <UploadSection>
           <UploadBox
             onDragOver={onUploadBoxDragOverOrEnter}
