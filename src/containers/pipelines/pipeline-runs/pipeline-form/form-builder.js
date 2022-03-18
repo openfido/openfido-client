@@ -52,7 +52,7 @@ const AppDropdownMenuItem = styled(Menu.Item)`
 `;
 
 const FormBuilder = ({
-  field, fieldName, handleChange, value, type
+  field, fieldName, handleChange, value, type,
 }) => {
   // simple dropdown tooltip
   const menu = (
@@ -277,6 +277,7 @@ FormBuilder.propTypes = {
     root: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   }).isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default FormBuilder;
