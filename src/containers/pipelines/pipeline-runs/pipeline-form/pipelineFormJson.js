@@ -104,12 +104,10 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
       temp[item] = toJson[item].value;
       return item;
     });
-    console.log(temp);
     const fileContent = `data:application/json;charset=utf-8,${JSON.stringify(temp)}`;
     const file = new Blob([fileContent], { // eslint-disable-line
       type: 'application/json',
     });
-    console.log(fileContent, file);
     onInputFormSubmit(file, `${fName}.${fType}`);
     const encodedUri = encodeURI(fileContent);
     const link = document.createElement('a'); // eslint-disable-line
