@@ -67,7 +67,7 @@ const FormBuilder = ({
   if ((type === 'json') && (field.input_type === 'arr')) {
     return (
       <>
-        <label>
+        <label style={{ minWidth: '10rem' }}>
           {fieldName}
         </label>
         <input
@@ -89,7 +89,7 @@ const FormBuilder = ({
   if (field.input_type === 'str') {
     return (
       <>
-        <label>
+        <label style={{ minWidth: '10rem' }}>
           {fieldName}
         </label>
         <input
@@ -108,7 +108,7 @@ const FormBuilder = ({
   } if (field.input_type === 'str optional') {
     return (
       <>
-        <label>
+        <label style={{ minWidth: '10rem' }}>
           {fieldName}
           (optional)
         </label>
@@ -128,7 +128,7 @@ const FormBuilder = ({
   } if (field.input_type === 'str required') {
     return (
       <>
-        <label>
+        <label style={{ minWidth: '10rem' }}>
           {fieldName}
           (required)
         </label>
@@ -148,7 +148,7 @@ const FormBuilder = ({
   } if (field.input_type === 'int') {
     return (
       <>
-        <label>
+        <label style={{ minWidth: '10rem' }}>
           {fieldName}
         </label>
         <input
@@ -167,7 +167,7 @@ const FormBuilder = ({
   } if (field.input_type === 'int required') {
     return (
       <>
-        <label>
+        <label style={{ minWidth: '10rem' }}>
           {fieldName}
           (required)
         </label>
@@ -195,7 +195,7 @@ const FormBuilder = ({
   } if (field.input_type === 'boolean') {
     return (
       <>
-        <label>
+        <label style={{ minWidth: '10rem' }}>
           {fieldName}
           (true/false)
         </label>
@@ -215,7 +215,7 @@ const FormBuilder = ({
   } if (field.input_type === 'float') {
     return (
       <>
-        <label>
+        <label style={{ minWidth: '10rem' }}>
           {fieldName}
         </label>
         <input
@@ -234,7 +234,7 @@ const FormBuilder = ({
   } if (field.input_type === 'float required') {
     return (
       <>
-        <label>
+        <label style={{ minWidth: '10rem' }}>
           {fieldName}
           (required)
         </label>
