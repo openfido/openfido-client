@@ -1,8 +1,7 @@
 import React, {
-  useState, useEffect, useReducer, useRef,
+  useState, useEffect, useReducer,
 } from 'react';
 import PropTypes from 'prop-types';
-// import { Blob } from 'buffer';
 import styled from 'styled-components';
 import {
   StyledButton,
@@ -22,16 +21,12 @@ const PipelineFormStyled = styled.form`
 const DEFAULT_STATE = {};
 
 const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
-  const [fType, setFormType] = useState(undefined);
-  const [fName, setFormName] = useState(undefined);
+  const [fType, setFormType] = useState(null);
+  const [fName, setFormName] = useState(null);
   // used to prepare the form for conversion
   const [formBuilder, setFormBuilder] = useState([]);
   const [isHidden, setIsHidden] = useState(false);
-  const [toCsv, dispatch] = useReducer(formReducer, DEFAULT_STATE);
-
-  // used for when submitted
-  const [convertedCsv, setConvertedCsv] = useState([]);
-  const csvLink = useRef();
+  const [toJson, dispatch] = useReducer(formReducer, DEFAULT_STATE);
 
   useEffect(() => {
     const [fname, type] = formType;
@@ -40,7 +35,7 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
   }, [formType]);
 
   // generates the provided fieldnames into an array
-  // prepares form for csv conversion and creates trackable state
+  // prepares form for json conversion and creates trackable state
   useEffect(() => {
     if (config === undefined) {
       setFormBuilder([]);
@@ -76,9 +71,9 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
   //   // do magic;
   //   let passing = true;
   //   for (let i = 0; i < configMapable.length; i += 1) {
-  //     console.log(toCsv[configMapable[i]]);
-  //     if (toCsv[configMapable[i]].input_type.contains('required')) {
-  //       if (toCsv[configMapable[i]].value.length === 0) {
+  //     console.log(toJson[configMapable[i]]);
+  //     if (toJson[configMapable[i]].input_type.contains('required')) {
+  //       if (toJson[configMapable[i]].value.length === 0) {
   //         alert(`Please enter a value in the ${configMapable[i]} field`);
   //         passing = false;
   //         break;
@@ -88,8 +83,45 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
   //   return passing;
   // }; if (formValidator(configMapable))
 
+  const convertToJson = (configMapable) => {
+    const temp = {};
+    configMapable.map((item) => {
+      if (toJson[item].input_type === 'title') {
+        return item;
+      }
+      if (toJson[item].input_type === 'arr') {
+        temp[item] = toJson[item].value.split(',');
+        return item;
+      }
+      if (toJson[item].input_type === 'boolean') {
+        if (toJson[item].value === 'true') {
+          temp[item] = true;
+          return item;
+        }
+        temp[item] = false;
+        return item;
+      }
+      temp[item] = toJson[item].value;
+      return item;
+    });
+    console.log(temp);
+    const fileContent = `data:application/json;charset=utf-8,${JSON.stringify(temp)}`;
+    const file = new Blob([fileContent], { // eslint-disable-line
+      type: 'application/json',
+    });
+    console.log(fileContent, file);
+    onInputFormSubmit(file, `${fName}.${fType}`);
+    const encodedUri = encodeURI(fileContent);
+    const link = document.createElement('a'); // eslint-disable-line
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `${fName}.${fType}`);
+    document.body.appendChild(link); // eslint-disable-line
+    link.click(); // This will download the data file named "my_data.rc".
+  };
+
   const handleSubmit = async () => {
     const configMapable = Object.keys(config);
+    convertToJson(configMapable);
   };
 
   // generates a form based on the length of the config file
@@ -121,7 +153,7 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
                 type={fType}
                 field={field}
                 fieldName={item}
-                value={toCsv[item]}
+                value={toJson[item]}
                 handleChange={handleChange}
               />
             );

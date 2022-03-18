@@ -2,7 +2,6 @@ import React, {
   useState, useEffect, useReducer, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
-// import { Blob } from 'buffer';
 import styled from 'styled-components';
 import { CSVLink } from 'react-csv';
 import {
@@ -100,7 +99,6 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
       ]);
       return item;
     });
-    setConvertedCsv(temp);
     const fileContent = `data:text/plain;charset=utf-8,${
       temp.map((e) => e.join(',')).join('\n')}`;
     const file = new Blob([fileContent], { // eslint-disable-line
@@ -206,7 +204,7 @@ PipelineForm.propTypes = {
     root: PropTypes.string,
   }).isRequired,
   onInputFormSubmit: PropTypes.func.isRequired,
-  formType: PropTypes.arrayOf(PropTypes.number).isRequired,
+  formType: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default PipelineForm;

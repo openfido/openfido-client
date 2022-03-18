@@ -19,6 +19,7 @@ import {
 import colors from 'styles/colors';
 import gitApi from 'util/api-github';
 import PipelineForm from '../pipeline-form/pipelineForm';
+import PipelineFormJson from '../pipeline-form/pipelineFormJson';
 
 const Modal = styled(StyledModal)`
   h2 {
@@ -261,9 +262,20 @@ const StartRunPopup = ({
       <StyledForm onSubmit={onStartRunClicked}>
         {
           manual.map((item) => {
-            // do a thing
-            if (item === undefined) {
+            // Don't attempt a render if there is nothing to render yet
+            if (manual.length === 0) {
               return <div />;
+            }
+            // separated json form from csv/rc form to allow for more complicated, targeted logic
+            if (manifest.manual[item] === 'json') {
+              return (
+                <PipelineFormJson
+                  config={manifest[item]}
+                  key={item}
+                  formType={[item, manifest.manual[item]]}
+                  onInputFormSubmit={(arrayBuffer, fileName) => handleInputFormSubmit(arrayBuffer, fileName)}
+                />
+              );
             }
             return (
               <PipelineForm

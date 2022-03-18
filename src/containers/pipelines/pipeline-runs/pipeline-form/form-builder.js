@@ -63,8 +63,30 @@ const FormBuilder = ({
     </AppDropdownMenu>
   );
 
-  // generates field for RC forms
+  // generates all fields for RC forms
   if (type === 'rc') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
+        </label>
+        <input
+          type="text"
+          id={fieldName}
+          name={fieldName}
+          value={value.value}
+          onChange={(e) => handleChange(e)}
+        />
+        <br />
+      </>
+    );
+  }
+
+  // same text fields, however gets converted to json array elsewhere
+  if ((type === 'json') && (field.input_type === 'arr')) {
     return (
       <>
         <label>
@@ -159,6 +181,7 @@ const FormBuilder = ({
           id={fieldName}
           name={fieldName}
           value={value.value}
+          onChange={(e) => handleChange(e)}
         />
         <br />
       </>
