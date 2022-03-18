@@ -52,7 +52,7 @@ const AppDropdownMenuItem = styled(Menu.Item)`
 `;
 
 const FormBuilder = ({
-  field, fieldName, handleChange, value,
+  field, fieldName, handleChange, value, type
 }) => {
   // simple dropdown tooltip
   const menu = (
@@ -62,6 +62,28 @@ const FormBuilder = ({
       </AppDropdownMenuItem>
     </AppDropdownMenu>
   );
+
+  // generates field for RC forms
+  if (type === 'rc') {
+    return (
+      <>
+        <label>
+          {fieldName}
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
+        </label>
+        <input
+          type="text"
+          id={fieldName}
+          name={fieldName}
+          value={value.value}
+          onChange={(e) => handleChange(e)}
+        />
+        <br />
+      </>
+    );
+  }
 
   // Generates fields based on valid input_type, along with associated functionality
   if (field.input_type === 'str') {

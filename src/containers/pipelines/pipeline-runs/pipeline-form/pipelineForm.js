@@ -22,7 +22,7 @@ const PipelineFormStyled = styled.form`
 
 const DEFAULT_STATE = {};
 
-const PipelineForm = ({ config, formType, onInputFormSubmit}) => {
+const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
   const [fType, setFormType] = useState(undefined);
   const [fName, setFormName] = useState(undefined);
   // used to prepare the form for conversion
@@ -38,7 +38,6 @@ const PipelineForm = ({ config, formType, onInputFormSubmit}) => {
     const [fname, type] = formType;
     setFormName(fname);
     setFormType(type);
-    console.log('HMM', formType);
   }, [formType]);
 
   // generates the provided fieldnames into an array
@@ -90,42 +89,60 @@ const PipelineForm = ({ config, formType, onInputFormSubmit}) => {
   //   return passing;
   // }; if (formValidator(configMapable))
 
-  // const downloadRcFile = (text) => {
-  //   const file = new Blob([text], {
-  //     type: 'text/plain',
-  //   });
-  //   console.log(text, file);
-  //   const encodedUri = encodeURI(text);
-  //   const link = document.createElement('a');
-  //   link.setAttribute('href', encodedUri);
-  //   link.setAttribute('download', 'my_data.rc');
-  //   document.body.appendChild(link); // Required for FF
-  //   link.click(); // This will download the data file named "my_data.csv".
-  // };
+  const handleRc = (configMapable) => {
+    const temp = [];
+    configMapable.map((item) => {
+      if (toCsv[item].input_type === 'title') {
+        return item;
+      }
+      temp.push([
+        toCsv[item].value,
+      ]);
+      return item;
+    });
+    setConvertedCsv(temp);
+    const fileContent = `data:text/plain;charset=utf-8,${
+      temp.map((e) => e.join(',')).join('\n')}`;
+    const file = new Blob([fileContent], { // eslint-disable-line
+      type: 'text/plain',
+    });
+    onInputFormSubmit(file, `${fName}.${fType}`);
+    const encodedUri = encodeURI(fileContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `${fName}.${fType}`);
+    document.body.appendChild(link); // Required for FF
+    link.click(); // This will download the data file named "my_data.rc".
+  };
+
+  const handleCsv = (configMapable) => {
+    const temp = [];
+    configMapable.map((item) => {
+      if (toCsv[item].input_type === 'title') {
+        return item;
+      }
+      temp.push([
+        item, toCsv[item].value,
+      ]);
+      return item;
+    });
+    setConvertedCsv(temp);
+    const csvContent = `data:text/csv;charset=utf-8,${
+      temp.map((e) => e.join(',')).join('\n')}`;
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' }); // eslint-disable-line
+    onInputFormSubmit(blob, `${fName}.${fType}`);
+    csvLink.current.link.click();
+  };
 
   const handleSubmit = async () => {
     // convert toCsv into csv format, downloads copy of csv file and automatically attaches form
     const configMapable = Object.keys(config);
-    const temp = [];
     if (configMapable === undefined) {
       alert('There was an error with the configuration file'); // eslint-disable-line
-    } else {
-      configMapable.map((item) => {
-        if (toCsv[item].input_type === 'title') {
-          return item;
-        }
-        temp.push([
-          item, toCsv[item].value,
-        ]);
-        return item;
-      });
-      await setConvertedCsv(temp);
-      const csvContent = `data:text/csv;charset=utf-8,${
-        temp.map((e) => e.join(',')).join('\n')}`;
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      // downloadRcFile(csvContent);
-      onInputFormSubmit(blob, 'config.csv');
-      csvLink.current.link.click();
+    } else if (fType === 'csv') {
+      handleCsv(configMapable);
+    } else if (fType === 'rc') {
+      handleRc(configMapable);
     }
   };
 
@@ -140,7 +157,13 @@ const PipelineForm = ({ config, formType, onInputFormSubmit}) => {
           onClick={(e) => clickHide(e)}
         >
           <div>
-            <strong>Manually fill the configuration form</strong>
+            <strong>
+              Manually fill the
+              {' "'}
+              {fName}
+              {'" '}
+              form
+            </strong>
           </div>
         </StyledButton>
         <div style={isHidden ? {} : { display: 'none' }}>
@@ -149,6 +172,7 @@ const PipelineForm = ({ config, formType, onInputFormSubmit}) => {
             return (
               <FormBuilder
                 key={item}
+                type={fType}
                 field={field}
                 fieldName={item}
                 value={toCsv[item]}
@@ -159,7 +183,7 @@ const PipelineForm = ({ config, formType, onInputFormSubmit}) => {
           <StyledButton type="submit" onClick={() => handleSubmit()}>Submit form</StyledButton>
           <CSVLink
             data={convertedCsv}
-            filename="config.csv"
+            filename={`${fName}.${fType}`}
             className="hidden"
             ref={csvLink}
             target="_blank"
@@ -182,9 +206,7 @@ PipelineForm.propTypes = {
     root: PropTypes.string,
   }).isRequired,
   onInputFormSubmit: PropTypes.func.isRequired,
-  formType: PropTypes.shape({
-    root: PropTypes.string,
-  }).isRequired,
+  formType: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 export default PipelineForm;

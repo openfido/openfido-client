@@ -168,7 +168,6 @@ const StartRunPopup = ({
     // Pass in the correct response.manual[key] value to build correct form type
     gitApi.getManifest(configUrl)
       .then((response) => {
-        console.log(response);
         setManifest(response);
         setManual(Object.keys(response.manual));
       }, (error) => {
@@ -263,13 +262,12 @@ const StartRunPopup = ({
         {
           manual.map((item) => {
             // do a thing
-            console.log(item, manifest[item], manifest.manual[item]);
             if (item === undefined) {
               return <div />;
             }
             return (
               <PipelineForm
-                config={manifest.config}
+                config={manifest[item]}
                 key={item}
                 formType={[item, manifest.manual[item]]}
                 onInputFormSubmit={(arrayBuffer, fileName) => handleInputFormSubmit(arrayBuffer, fileName)}
