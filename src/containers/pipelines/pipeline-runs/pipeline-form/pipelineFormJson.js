@@ -43,6 +43,12 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
       const configMapable = Object.keys(config);
       const cleanConfig = config;
       configMapable.map((item) => {
+        if (cleanConfig[item].default === undefined) {
+          cleanConfig[item].default = '';
+        }
+        if (cleanConfig[item].descrition === undefined) {
+          cleanConfig[item].description = '';
+        }
         cleanConfig[item].value = cleanConfig[item].default;
         return item;
       });
@@ -123,7 +129,7 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
   };
 
   // generates a form based on the length of the config file
-  if (formBuilder.length > 0) {
+  if (formBuilder.length > 0 && (typeof (fType) === 'string')) {
     return (
       <PipelineFormStyled>
         <StyledButton
@@ -177,7 +183,7 @@ PipelineFormJson.propTypes = {
     root: PropTypes.string,
   }).isRequired,
   onInputFormSubmit: PropTypes.func.isRequired,
-  formType: PropTypes.arrayOf(PropTypes.number).isRequired,
+  formType: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default PipelineFormJson;

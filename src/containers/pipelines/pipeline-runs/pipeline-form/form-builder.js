@@ -63,28 +63,6 @@ const FormBuilder = ({
     </AppDropdownMenu>
   );
 
-  // generates all fields for RC forms
-  if (type === 'rc') {
-    return (
-      <>
-        <label>
-          {fieldName}
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
-        </label>
-        <input
-          type="text"
-          id={fieldName}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <br />
-      </>
-    );
-  }
-
   // same text fields, however gets converted to json array elsewhere
   if ((type === 'json') && (field.input_type === 'arr')) {
     return (
@@ -289,16 +267,22 @@ const FormBuilder = ({
 
 FormBuilder.propTypes = {
   field: PropTypes.shape({
-    root: PropTypes.string.isRequired,
     input_type: PropTypes.string.isRequired,
-    default: PropTypes.string.isRequired,
+    default: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool,
+    ]).isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
   fieldName: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   value: PropTypes.shape({
-    root: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool,
+    ]).isRequired,
   }).isRequired,
   type: PropTypes.string.isRequired,
 };

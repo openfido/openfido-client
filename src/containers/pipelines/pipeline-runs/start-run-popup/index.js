@@ -169,8 +169,12 @@ const StartRunPopup = ({
     // Pass in the correct response.manual[key] value to build correct form type
     gitApi.getManifest(configUrl)
       .then((response) => {
-        setManifest(response);
-        setManual(Object.keys(response.manual));
+        if (response.manual === undefined) {
+          console.log('Missing manual property from the manifest');
+        } else {
+          setManifest(response);
+          setManual(Object.keys(response.manual));
+        }
       }, (error) => {
         console.log(error);
       });
