@@ -65,7 +65,7 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
     gitApi.getManifest(url.url)
       .then((response) => {
         setFields({
-          name: url.name,
+          name: url.name.charAt(0).toUpperCase() + url.name.slice(1),
           description: url.description,
           docker_image_url: response.docker,
           repository_ssh_url: response.git,
@@ -163,7 +163,7 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
       <StyledH3 color="black">Add a pipeline</StyledH3>
       <PipelineDropdown updateFromDropdown={updateFromDropdown} />
       <Space direction="vertical" size={24}>
-        <label htmlFor="name">
+        <label htmlFor="name" style={{ width: '100%' }}>
           <StyledText
             display="block"
             color={errors.name ? 'pink' : 'darkText'}
@@ -182,7 +182,7 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
             onChange={(e) => onFieldChanged(e, 'name')}
           />
         </label>
-        <label htmlFor="description">
+        <label htmlFor="description" style={{ width: '100%' }}>
           <StyledText
             display="block"
             color={errors.description ? 'pink' : 'darkText'}
@@ -201,7 +201,7 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
             onChange={(e) => onFieldChanged(e, 'description')}
           />
         </label>
-        <label htmlFor="docker_image_url">
+        <label htmlFor="docker_image_url" style={{ width: '100%' }}>
           <StyledText
             display="block"
             color={errors.docker_image_url ? 'pink' : 'darkText'}
@@ -220,7 +220,7 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
             onChange={(e) => onFieldChanged(e, 'docker_image_url')}
           />
         </label>
-        <label htmlFor="repository_ssh_url">
+        <label htmlFor="repository_ssh_url" style={{ width: '100%' }}>
           <StyledText
             display="block"
             color={errors.repository_ssh_url ? 'pink' : 'darkText'}
@@ -239,7 +239,7 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
             onChange={(e) => onFieldChanged(e, 'repository_ssh_url')}
           />
         </label>
-        <label htmlFor="repository_branch">
+        <label htmlFor="repository_branch" style={{ width: '100%' }}>
           <StyledText
             display="block"
             color={errors.repository_branch ? 'pink' : 'darkText'}
@@ -258,7 +258,7 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
             onChange={(e) => onFieldChanged(e, 'repository_branch')}
           />
         </label>
-        <label htmlFor="repository_script">
+        <label htmlFor="repository_script" style={{ width: '100%' }}>
           <StyledText
             display="block"
             color={errors.repository_script ? 'pink' : 'darkText'}

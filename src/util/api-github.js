@@ -14,7 +14,6 @@ const gitApi = {
     const response = await axios.get(potentialPipelines, { timeout: 1500 });
     const data = response.data.items;
     const cleanData = data.map((repo) => {
-      console.log(repo);
       const reducedData = {};
       reducedData.full_name = repo.name;
       reducedData.url = repo.url;

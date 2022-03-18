@@ -12,6 +12,7 @@ import gitApi from 'util/api-github';
 import PipelineSelector from './pipeline-selector';
 
 const AppDropdown = styled(Dropdown)`
+  float: left;
   user-select: none;
   z-index: 3;
   .anticon {
@@ -95,7 +96,7 @@ const PipelineDropdown = (updateFromDropdown) => {
   return (
     <AppDropdown overlay={menu} trigger="click">
       <div aria-label="App dropdown">
-        <StyledText color="darkText">
+        <StyledText style={{ textAlign: 'left' }} color="darkText">
           Import from Github
         </StyledText>
         <DownOutlined color="gray20" />

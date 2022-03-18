@@ -69,9 +69,6 @@ const FormBuilder = ({
       <>
         <label>
           {fieldName}
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
         </label>
         <input
           type="text"
@@ -80,6 +77,9 @@ const FormBuilder = ({
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
         <br />
       </>
     );
@@ -91,9 +91,6 @@ const FormBuilder = ({
       <>
         <label>
           {fieldName}
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
         </label>
         <input
           type="text"
@@ -102,6 +99,9 @@ const FormBuilder = ({
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
         <br />
       </>
     );
@@ -111,9 +111,6 @@ const FormBuilder = ({
         <label>
           {fieldName}
           (optional)
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
         </label>
         <input
           type="text"
@@ -122,6 +119,9 @@ const FormBuilder = ({
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
         <br />
       </>
     );
@@ -131,9 +131,6 @@ const FormBuilder = ({
         <label>
           {fieldName}
           (required)
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
         </label>
         <input
           type="text"
@@ -142,6 +139,9 @@ const FormBuilder = ({
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
         <br />
       </>
     );
@@ -150,9 +150,6 @@ const FormBuilder = ({
       <>
         <label>
           {fieldName}
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
         </label>
         <input
           type="number"
@@ -161,6 +158,9 @@ const FormBuilder = ({
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
         <br />
       </>
     );
@@ -170,9 +170,6 @@ const FormBuilder = ({
         <label>
           {fieldName}
           (required)
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
         </label>
         <input
           type="number"
@@ -181,6 +178,9 @@ const FormBuilder = ({
           onChange={(e) => handleChange(e)}
         />
         <br />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
       </>
     );
   } if (field.input_type === 'title') {
@@ -198,9 +198,6 @@ const FormBuilder = ({
         <label>
           {fieldName}
           (true/false)
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
         </label>
         <input
           type="text"
@@ -209,6 +206,9 @@ const FormBuilder = ({
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
         <br />
       </>
     );
@@ -217,9 +217,6 @@ const FormBuilder = ({
       <>
         <label>
           {fieldName}
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
         </label>
         <input
           type="number"
@@ -228,6 +225,9 @@ const FormBuilder = ({
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
         <br />
       </>
     );
@@ -237,9 +237,6 @@ const FormBuilder = ({
         <label>
           {fieldName}
           (required)
-          <AppDropdown overlay={menu} trigger="click">
-            <QmarkOutlined />
-          </AppDropdown>
         </label>
         <input
           type="number"
@@ -248,6 +245,9 @@ const FormBuilder = ({
           value={value.value}
           onChange={(e) => handleChange(e)}
         />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
         <br />
       </>
     );
