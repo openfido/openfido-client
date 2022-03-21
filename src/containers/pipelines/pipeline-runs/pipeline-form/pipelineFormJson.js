@@ -152,16 +152,21 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
           {formBuilder.map((item) => {
             const field = config[item];
             let fieldName;
+            let fieldId = '';
             if (config[item].prompt === undefined) {
               fieldName = item;
             } else {
               fieldName = config[item].prompt;
+            }
+            if (typeof (item) === 'string') {
+              fieldId = item;
             }
             return (
               <FormBuilder
                 key={item}
                 type={fType}
                 field={field}
+                fieldId={fieldId}
                 fieldName={fieldName}
                 value={toJson[item]}
                 handleChange={handleChange}
