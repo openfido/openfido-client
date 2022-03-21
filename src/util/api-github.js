@@ -15,9 +15,10 @@ const gitApi = {
     const data = response.data.items;
     const cleanData = data.map((repo) => {
       const reducedData = {};
-      reducedData.full_name = repo.full_name;
+      reducedData.full_name = repo.name;
       reducedData.url = repo.url;
       reducedData.id = repo.id;
+      reducedData.description = repo.description;
       return reducedData;
     });
     return cleanData;

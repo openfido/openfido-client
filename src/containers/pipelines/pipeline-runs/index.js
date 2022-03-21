@@ -108,8 +108,8 @@ const PipelineRuns = () => {
   if (pipelines !== null) {
     pipelines.forEach((pipeline) => {
       if (pipeline.uuid === pipelineInView) {
-        configUrl = `${pipeline.repository_ssh_url.replace('.git', '').replace('github', 'raw.githubusercontent')}/
-        ${pipeline.repository_branch}/openfido_start.json`;
+        // configUrl generates the API url for github to retrieve the manifest.json file
+        configUrl = pipeline.repository_ssh_url.replace('.git', '').replace('github.com/', 'api.github.com/repos/');
         piplineUrl = pipeline.repository_ssh_url;
       }
     });
@@ -129,7 +129,6 @@ const PipelineRuns = () => {
       && pipelineRunSelected.states.length
       && pipelineRunSelected.states[pipelineRunSelected.states.length - 1].state
   );
-  // dispatch(getPipelineConfigData(configUrl));
 
   useEffect(() => {
     if (!pipelines) {
