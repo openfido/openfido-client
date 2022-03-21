@@ -56,7 +56,7 @@ const FormLabel = styled.label`
 `;
 
 const FormBuilder = ({
-  field, fieldName, handleChange, value, type,
+  field, fieldName, fieldId, handleChange, value, type,
 }) => {
   // simple dropdown tooltip
   const menu = (
@@ -76,7 +76,7 @@ const FormBuilder = ({
         </FormLabel>
         <input
           type="text"
-          id={fieldName}
+          id={fieldId}
           name={fieldName}
           value={value.value}
           onChange={(e) => handleChange(e)}
@@ -98,7 +98,7 @@ const FormBuilder = ({
         </FormLabel>
         <input
           type="text"
-          id={fieldName}
+          id={fieldId}
           name={fieldName}
           value={value.value}
           onChange={(e) => handleChange(e)}
@@ -118,7 +118,7 @@ const FormBuilder = ({
         </FormLabel>
         <input
           type="text"
-          id={fieldName}
+          id={fieldId}
           name={fieldName}
           value={value.value}
           onChange={(e) => handleChange(e)}
@@ -138,7 +138,7 @@ const FormBuilder = ({
         </FormLabel>
         <input
           type="text"
-          id={fieldName}
+          id={fieldId}
           name={fieldName}
           value={value.value}
           onChange={(e) => handleChange(e)}
@@ -157,7 +157,7 @@ const FormBuilder = ({
         </FormLabel>
         <input
           type="number"
-          id={fieldName}
+          id={fieldId}
           name={fieldName}
           value={value.value}
           onChange={(e) => handleChange(e)}
@@ -177,7 +177,7 @@ const FormBuilder = ({
         </FormLabel>
         <input
           type="number"
-          id={fieldName}
+          id={fieldId}
           name={fieldName}
           onChange={(e) => handleChange(e)}
         />
@@ -205,7 +205,7 @@ const FormBuilder = ({
         </FormLabel>
         <input
           type="text"
-          id={fieldName}
+          id={fieldId}
           name={fieldName}
           value={value.value}
           onChange={(e) => handleChange(e)}
@@ -224,7 +224,7 @@ const FormBuilder = ({
         </FormLabel>
         <input
           type="number"
-          id={fieldName}
+          id={fieldId}
           name={fieldName}
           value={value.value}
           onChange={(e) => handleChange(e)}
@@ -244,7 +244,7 @@ const FormBuilder = ({
         </FormLabel>
         <input
           type="number"
-          id={fieldName}
+          id={fieldId}
           name={fieldName}
           value={value.value}
           onChange={(e) => handleChange(e)}
@@ -280,6 +280,7 @@ FormBuilder.propTypes = {
     description: PropTypes.string.isRequired,
   }).isRequired,
   fieldName: PropTypes.string.isRequired,
+  fieldId: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   value: PropTypes.shape({
     value: PropTypes.oneOfType([
