@@ -252,7 +252,7 @@ const StartRunPopup = ({
           textcolor="lightBlue"
           onClick={handleOpenPiplineClick}
         >
-          Pipeline Description
+          Help
         </StyledButton>,
       ]}
       onOk={handleOk}
