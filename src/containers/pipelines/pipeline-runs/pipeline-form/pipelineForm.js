@@ -108,13 +108,13 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
       ]);
       return item;
     });
-    const fileContent = `data:text/plain;charset=utf-8,${
-      temp.map((e) => e.join(',')).join('\n')}`;
+    const fileContent = temp.map((e) => e.join(',')).join('\n');
     const file = new Blob([fileContent], { // eslint-disable-line
       type: 'text/plain',
     });
+    const fileDownload = `data:text/plain;charset=utf-8,${fileContent}`;
     onInputFormSubmit(file, `${fName}.${fType}`);
-    const encodedUri = encodeURI(fileContent);
+    const encodedUri = encodeURI(fileDownload);
     const link = document.createElement('a'); // eslint-disable-line
     link.setAttribute('href', encodedUri);
     link.setAttribute('download', `${fName}.${fType}`);
@@ -134,8 +134,7 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
       return item;
     });
     setConvertedCsv(temp);
-    const csvContent = `data:text/csv;charset=utf-8,${
-      temp.map((e) => e.join(',')).join('\n')}`;
+    const csvContent = temp.map((e) => e.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' }); // eslint-disable-line
     onInputFormSubmit(blob, `${fName}.${fType}`);
     csvLink.current.link.click();
