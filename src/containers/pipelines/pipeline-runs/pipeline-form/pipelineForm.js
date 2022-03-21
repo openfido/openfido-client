@@ -12,7 +12,7 @@ import formReducer from 'reducers/configform';
 import FormBuilder from './form-builder';
 
 const PipelineFormStyled = styled.form`
-  width: 50%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -176,12 +176,18 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
         <div style={isHidden ? {} : { display: 'none' }}>
           {formBuilder.map((item) => {
             const field = config[item];
+            let fieldName;
+            if (config[item].prompt === undefined) {
+              fieldName = item;
+            } else {
+              fieldName = config[item].prompt;
+            }
             return (
               <FormBuilder
                 key={item}
                 type={fType}
                 field={field}
-                fieldName={item}
+                fieldName={fieldName}
                 value={toCsv[item]}
                 handleChange={handleChange}
               />

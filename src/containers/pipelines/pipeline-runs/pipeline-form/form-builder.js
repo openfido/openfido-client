@@ -51,6 +51,10 @@ const AppDropdownMenuItem = styled(Menu.Item)`
   }
 `;
 
+const FormLabel = styled.label`
+  min-width: 15rem;
+`;
+
 const FormBuilder = ({
   field, fieldName, handleChange, value, type,
 }) => {
@@ -67,9 +71,9 @@ const FormBuilder = ({
   if ((type === 'json') && (field.input_type === 'arr')) {
     return (
       <>
-        <label style={{ minWidth: '10rem' }}>
+        <FormLabel>
           {fieldName}
-        </label>
+        </FormLabel>
         <input
           type="text"
           id={fieldName}
@@ -89,9 +93,9 @@ const FormBuilder = ({
   if (field.input_type === 'str') {
     return (
       <>
-        <label style={{ minWidth: '10rem' }}>
+        <FormLabel>
           {fieldName}
-        </label>
+        </FormLabel>
         <input
           type="text"
           id={fieldName}
@@ -108,10 +112,10 @@ const FormBuilder = ({
   } if (field.input_type === 'str optional') {
     return (
       <>
-        <label style={{ minWidth: '10rem' }}>
+        <FormLabel>
           {fieldName}
           (optional)
-        </label>
+        </FormLabel>
         <input
           type="text"
           id={fieldName}
@@ -128,10 +132,10 @@ const FormBuilder = ({
   } if (field.input_type === 'str required') {
     return (
       <>
-        <label style={{ minWidth: '10rem' }}>
+        <FormLabel>
           {fieldName}
           (required)
-        </label>
+        </FormLabel>
         <input
           type="text"
           id={fieldName}
@@ -148,9 +152,9 @@ const FormBuilder = ({
   } if (field.input_type === 'int') {
     return (
       <>
-        <label style={{ minWidth: '10rem' }}>
+        <FormLabel>
           {fieldName}
-        </label>
+        </FormLabel>
         <input
           type="number"
           id={fieldName}
@@ -167,20 +171,20 @@ const FormBuilder = ({
   } if (field.input_type === 'int required') {
     return (
       <>
-        <label style={{ minWidth: '10rem' }}>
+        <FormLabel>
           {fieldName}
           (required)
-        </label>
+        </FormLabel>
         <input
           type="number"
           id={fieldName}
           name={fieldName}
           onChange={(e) => handleChange(e)}
         />
-        <br />
         <AppDropdown overlay={menu} trigger="click">
           <QmarkOutlined />
         </AppDropdown>
+        <br />
       </>
     );
   } if (field.input_type === 'title') {
@@ -195,10 +199,10 @@ const FormBuilder = ({
   } if (field.input_type === 'boolean') {
     return (
       <>
-        <label style={{ minWidth: '10rem' }}>
+        <FormLabel>
           {fieldName}
           (true/false)
-        </label>
+        </FormLabel>
         <input
           type="text"
           id={fieldName}
@@ -215,9 +219,9 @@ const FormBuilder = ({
   } if (field.input_type === 'float') {
     return (
       <>
-        <label style={{ minWidth: '10rem' }}>
+        <FormLabel>
           {fieldName}
-        </label>
+        </FormLabel>
         <input
           type="number"
           id={fieldName}
@@ -234,10 +238,10 @@ const FormBuilder = ({
   } if (field.input_type === 'float required') {
     return (
       <>
-        <label style={{ minWidth: '10rem' }}>
+        <FormLabel>
           {fieldName}
           (required)
-        </label>
+        </FormLabel>
         <input
           type="number"
           id={fieldName}
