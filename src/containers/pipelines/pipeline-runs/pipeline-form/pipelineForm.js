@@ -51,7 +51,7 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
         if (cleanConfig[item].default === undefined) {
           cleanConfig[item].default = '';
         }
-        if (cleanConfig[item].descrition === undefined) {
+        if (cleanConfig[item].description === undefined) {
           cleanConfig[item].description = '';
         }
         if (cleanConfig[item].input_type === undefined) {

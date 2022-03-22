@@ -67,196 +67,91 @@ const FormBuilder = ({
     </AppDropdownMenu>
   );
 
-  // same text fields, however gets converted to json array elsewhere
-  if ((type === 'json') && (field.input_type === 'arr')) {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-        </FormLabel>
-        <input
-          type="text"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
+  const validInputTypes = {
+    csv: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'enum', 'set', 'title'],
+    rc: ['str', 'title'],
+    json: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'arr', 'enum', 'set', 'title'],
+  };
+
+  let fieldType = 'text';
+  let requirement = '';
+  const isValid = validInputTypes[type].includes(field.input_type);
+
+  switch (field.input_type) {
+    case 'str':
+      fieldType = 'text';
+      requirement = '';
+      break;
+    case ' optional':
+      fieldType = 'text';
+      requirement = '(optional)';
+      break;
+    case 'str required':
+      fieldType = 'text';
+      requirement = '(required)';
+      break;
+    case 'float':
+      fieldType = 'number';
+      requirement = '';
+      break;
+    case 'int':
+      fieldType = 'number';
+      requirement = '';
+      break;
+    case 'int optional':
+      fieldType = 'number';
+      requirement = '(optional)';
+      break;
+    case 'int required':
+      fieldType = 'number';
+      requirement = '(required)';
+      break;
+    case 'boolean':
+      fieldType = 'text';
+      requirement = '(true/false)';
+      break;
+    case 'arr':
+      fieldType = 'text';
+      requirement = '';
+      break;
+    default:
+      fieldType = 'text';
+      requirement = '(invalid configuration)';
   }
 
-  // Generates fields based on valid input_type, along with associated functionality
-  if (field.input_type === 'str') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-        </FormLabel>
-        <input
-          type="text"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'str optional') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-          (optional)
-        </FormLabel>
-        <input
-          type="text"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'str required') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-          (required)
-        </FormLabel>
-        <input
-          type="text"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'int') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-        </FormLabel>
-        <input
-          type="number"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'int required') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-          (required)
-        </FormLabel>
-        <input
-          type="number"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'title') {
-    return (
-      <>
-        <h4 style={{ textDecoration: 'underline' }}>
-          {fieldName}
-        </h4>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'boolean') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-          (true/false)
-        </FormLabel>
-        <input
-          type="text"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'float') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-        </FormLabel>
-        <input
-          type="number"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'float required') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-          (required)
-        </FormLabel>
-        <input
-          type="number"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
+  if (isValid) {
+    if (field.input_type !== 'title') {
+      return (
+        <>
+          <FormLabel>
+            {fieldName}
+            {requirement}
+          </FormLabel>
+          <input
+            type={fieldType}
+            id={fieldId}
+            name={fieldName}
+            value={value.value}
+            onChange={(e) => handleChange(e)}
+          />
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
+          <br />
+        </>
+      );
+    } if (field.input_type === 'title') {
+      return (
+        <>
+          <h4 style={{ textDecoration: 'underline' }}>
+            {fieldName}
+          </h4>
+          <br />
+        </>
+      );
+    }
   }
+
   return (
     <>
       <div>
