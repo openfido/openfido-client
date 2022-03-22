@@ -30,8 +30,8 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
   const [toCsv, dispatch] = useReducer(formReducer, DEFAULT_STATE);
 
   // used for when submitted
-  const [convertedCsv, setConvertedCsv] = useState([]);
-  const csvLink = useRef();
+  // const [convertedCsv, setConvertedCsv] = useState([]);
+  // const csvLink = useRef();
 
   useEffect(() => {
     const [fname, type] = formType;
@@ -112,17 +112,21 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
     const file = new Blob([fileContent], { // eslint-disable-line
       type: 'text/plain',
     });
-    const fileDownload = `data:text/plain;charset=utf-8,${fileContent}`;
     onInputFormSubmit(file, `${fName}.${fType}`);
+    /*
+    const fileDownload = `data:text/plain;charset=utf-8,${fileContent}`;
     const encodedUri = encodeURI(fileDownload);
     const link = document.createElement('a'); // eslint-disable-line
     link.setAttribute('href', encodedUri);
     link.setAttribute('download', `${fName}.${fType}`);
     document.body.appendChild(link); // eslint-disable-line
-    link.click(); // This will download the data file named "my_data.rc".
+    link.click(); // This will download the configured default filename".
+    */
   };
 
-  const handleCsv = (configMapable) => {
+  // currently async due to use of setConvertedCsv
+  // only necessary while enabling download on submit
+  const handleCsv = async (configMapable) => {
     const temp = [];
     configMapable.map((item) => {
       if (toCsv[item].input_type === 'title') {
@@ -133,11 +137,19 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
       ]);
       return item;
     });
-    setConvertedCsv(temp);
+    // await setConvertedCsv(temp);
     const csvContent = temp.map((e) => e.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' }); // eslint-disable-line
+    const blob = new Blob([csvContent], { type: 'text/csv' }); // eslint-disable-line
     onInputFormSubmit(blob, `${fName}.${fType}`);
-    csvLink.current.link.click();
+    /* csvLink.current.link.click();
+              <CSVLink
+            data={convertedCsv}
+            filename={`${fName}.${fType}`}
+            className="hidden"
+            ref={csvLink}
+            target="_blank"
+          />
+          */
   };
 
   const handleSubmit = async () => {
@@ -198,13 +210,6 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
             );
           })}
           <StyledButton type="submit" onClick={() => handleSubmit()}>Submit form</StyledButton>
-          <CSVLink
-            data={convertedCsv}
-            filename={`${fName}.${fType}`}
-            className="hidden"
-            ref={csvLink}
-            target="_blank"
-          />
         </div>
       </PipelineFormStyled>
     );

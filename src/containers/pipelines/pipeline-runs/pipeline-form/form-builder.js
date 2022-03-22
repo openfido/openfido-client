@@ -179,6 +179,7 @@ const FormBuilder = ({
           type="number"
           id={fieldId}
           name={fieldName}
+          value={value.value}
           onChange={(e) => handleChange(e)}
         />
         <AppDropdown overlay={menu} trigger="click">
