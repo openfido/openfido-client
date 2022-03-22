@@ -58,6 +58,9 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
           cleanConfig[item].input_type = 'str';
         }
         cleanConfig[item].value = cleanConfig[item].default;
+        if ((cleanConfig[item].input_type === 'enum') || (cleanConfig[item].input_type === 'set')) {
+          cleanConfig[item].value = cleanConfig[item].default.split(',')[0]; // eslint-disable-line
+        }
         return item;
       });
       dispatch({

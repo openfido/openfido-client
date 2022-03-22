@@ -50,6 +50,9 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
           cleanConfig[item].description = '';
         }
         cleanConfig[item].value = cleanConfig[item].default;
+        if ((cleanConfig[item].input_type === 'enum') || (cleanConfig[item].input_type === 'set')) {
+          cleanConfig[item].value = cleanConfig[item].default.split(',')[0]; // eslint-disable-line
+        }
         return item;
       });
       dispatch({

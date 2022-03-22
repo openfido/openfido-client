@@ -55,6 +55,14 @@ const FormLabel = styled.label`
   min-width: 15rem;
 `;
 
+const FormSelect = styled.select`
+  min-width: 10rem;
+`;
+
+const FormInput = styled.input`
+  min-width: 10rem;
+`;
+
 const FormBuilder = ({
   field, fieldName, fieldId, handleChange, value, type,
 }) => {
@@ -76,6 +84,7 @@ const FormBuilder = ({
   let fieldType = 'text';
   let requirement = '';
   const isValid = validInputTypes[type].includes(field.input_type);
+  let isSelect = false;
 
   switch (field.input_type) {
     case 'str':
@@ -114,9 +123,40 @@ const FormBuilder = ({
       fieldType = 'text';
       requirement = '';
       break;
+    case 'enum':
+      isSelect = true;
+      requirement = '(choose one)';
+      break;
+    case 'set':
+      isSelect = true;
+      requirement = '(choose all that apply)';
+      break;
     default:
       fieldType = 'text';
       requirement = '(invalid configuration)';
+  }
+
+  if (isSelect) {
+    return (
+      <>
+        <FormLabel>
+          {fieldName}
+          {requirement}
+        </FormLabel>
+        <FormSelect
+          id={fieldId}
+          name={fieldName}
+          value={value.value}
+          onChange={(e) => handleChange(e)}
+        >
+          {field.default.split(',').map((choice) => <option value={choice} key={choice}>{choice}</option>)}
+        </FormSelect>
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
+        <br />
+      </>
+    );
   }
 
   if (isValid) {
@@ -127,7 +167,7 @@ const FormBuilder = ({
             {fieldName}
             {requirement}
           </FormLabel>
-          <input
+          <FormInput
             type={fieldType}
             id={fieldId}
             name={fieldName}
