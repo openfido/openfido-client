@@ -1,9 +1,9 @@
 import React, {
-  useState, useEffect, useReducer, useRef,
+  useState, useEffect, useReducer,
 } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { CSVLink } from 'react-csv';
+// import { CSVLink } from 'react-csv';
 import {
   StyledButton,
 } from 'styles/app';
