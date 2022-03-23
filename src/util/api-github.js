@@ -11,7 +11,12 @@ const gitApi = {
 
   // list for dropdown of all repositories that can generate a pipeline, cleaned of excess data
   getPotentialPipelines: async () => {
-    const response = await axios.get(potentialPipelines, { timeout: 1500 });
+    const response = await axios({
+      method: 'get',
+      url: `${potentialPipelines}`,
+    })
+      .then((res) => res)
+      .catch((err) => console.log(err));
     const data = response.data.items;
     const cleanData = data.map((repo) => {
       const reducedData = {};
