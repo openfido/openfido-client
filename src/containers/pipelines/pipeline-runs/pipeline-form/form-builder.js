@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Dropdown, Menu } from 'antd';
+import ReactSelect from 'react-select';
 import colors from 'styles/colors';
 import QmarkOutlined from 'icons/QmarkOutlined';
 
@@ -55,8 +56,16 @@ const FormLabel = styled.label`
   min-width: 15rem;
 `;
 
+const FormSelect = styled.select`
+  min-width: 10rem;
+`;
+
+const FormInput = styled.input`
+  min-width: 10rem;
+`;
+
 const FormBuilder = ({
-  field, fieldName, fieldId, handleChange, value, type,
+  field, fieldName, fieldId, handleChange, value, type, handleChangeSelect,
 }) => {
   // simple dropdown tooltip
   const menu = (
@@ -67,19 +76,89 @@ const FormBuilder = ({
     </AppDropdownMenu>
   );
 
-  // same text fields, however gets converted to json array elsewhere
-  if ((type === 'json') && (field.input_type === 'arr')) {
+  const validInputTypes = {
+    csv: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'enum', 'set', 'title'],
+    rc: ['str', 'title'],
+    json: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'arr', 'enum', 'set', 'title'],
+  };
+
+  let fieldType = 'text';
+  let requirement = '';
+  const isValid = validInputTypes[type].includes(field.input_type);
+  let isSelect = false;
+  let isMultiSelect = false;
+
+  switch (field.input_type) {
+    case 'str':
+      fieldType = 'text';
+      requirement = '';
+      break;
+    case ' optional':
+      fieldType = 'text';
+      requirement = '(optional)';
+      break;
+    case 'str required':
+      fieldType = 'text';
+      requirement = '(required)';
+      break;
+    case 'float':
+      fieldType = 'number';
+      requirement = '';
+      break;
+    case 'int':
+      fieldType = 'number';
+      requirement = '';
+      break;
+    case 'int optional':
+      fieldType = 'number';
+      requirement = '(optional)';
+      break;
+    case 'int required':
+      fieldType = 'number';
+      requirement = '(required)';
+      break;
+    case 'boolean':
+      fieldType = 'text';
+      requirement = '(true/false)';
+      break;
+    case 'arr':
+      fieldType = 'text';
+      requirement = '';
+      break;
+    case 'enum':
+      isSelect = true;
+      requirement = '(choose one)';
+      break;
+    case 'set':
+      isSelect = true;
+      isMultiSelect = true;
+      requirement = '(choose all that apply)';
+      break;
+    default:
+      fieldType = 'text';
+      requirement = '(invalid configuration)';
+  }
+
+  if (isMultiSelect) {
+    // magic happens here
+    const options = [];
+    field.default.split(',').map((choice) => options.push({
+      label: choice,
+      value: choice,
+      id: fieldId,
+    }));
     return (
       <>
         <FormLabel>
           {fieldName}
+          {requirement}
         </FormLabel>
-        <input
-          type="text"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
+        <ReactSelect
+          isMulti
+          options={options}
+          name="ReactSelect"
+          isClearable
+          onChange={(e) => handleChangeSelect(e)}
         />
         <AppDropdown overlay={menu} trigger="click">
           <QmarkOutlined />
@@ -89,166 +168,21 @@ const FormBuilder = ({
     );
   }
 
-  // Generates fields based on valid input_type, along with associated functionality
-  if (field.input_type === 'str') {
+  if (isSelect) {
     return (
       <>
         <FormLabel>
           {fieldName}
+          {requirement}
         </FormLabel>
-        <input
-          type="text"
+        <FormSelect
           id={fieldId}
           name={fieldName}
           value={value.value}
           onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'str optional') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-          (optional)
-        </FormLabel>
-        <input
-          type="text"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'str required') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-          (required)
-        </FormLabel>
-        <input
-          type="text"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'int') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-        </FormLabel>
-        <input
-          type="number"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'int required') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-          (required)
-        </FormLabel>
-        <input
-          type="number"
-          id={fieldId}
-          name={fieldName}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'title') {
-    return (
-      <>
-        <h4 style={{ textDecoration: 'underline' }}>
-          {fieldName}
-        </h4>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'boolean') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-          (true/false)
-        </FormLabel>
-        <input
-          type="text"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'float') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-        </FormLabel>
-        <input
-          type="number"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
-        <br />
-      </>
-    );
-  } if (field.input_type === 'float required') {
-    return (
-      <>
-        <FormLabel>
-          {fieldName}
-          (required)
-        </FormLabel>
-        <input
-          type="number"
-          id={fieldId}
-          name={fieldName}
-          value={value.value}
-          onChange={(e) => handleChange(e)}
-        />
+        >
+          {field.default.split(',').map((choice) => <option value={choice} key={choice}>{choice}</option>)}
+        </FormSelect>
         <AppDropdown overlay={menu} trigger="click">
           <QmarkOutlined />
         </AppDropdown>
@@ -256,6 +190,40 @@ const FormBuilder = ({
       </>
     );
   }
+
+  if (isValid) {
+    if (field.input_type !== 'title') {
+      return (
+        <>
+          <FormLabel>
+            {fieldName}
+            {requirement}
+          </FormLabel>
+          <FormInput
+            type={fieldType}
+            id={fieldId}
+            name={fieldName}
+            value={value.value}
+            onChange={(e) => handleChange(e)}
+          />
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
+          <br />
+        </>
+      );
+    } if (field.input_type === 'title') {
+      return (
+        <>
+          <h4 style={{ textDecoration: 'underline' }}>
+            {fieldName}
+          </h4>
+          <br />
+        </>
+      );
+    }
+  }
+
   return (
     <>
       <div>
@@ -282,6 +250,7 @@ FormBuilder.propTypes = {
   fieldName: PropTypes.string.isRequired,
   fieldId: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
+  handleChangeSelect: PropTypes.func.isRequired,
   value: PropTypes.shape({
     value: PropTypes.oneOfType([
       PropTypes.string,

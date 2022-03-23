@@ -46,10 +46,13 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
         if (cleanConfig[item].default === undefined) {
           cleanConfig[item].default = '';
         }
-        if (cleanConfig[item].descrition === undefined) {
+        if (cleanConfig[item].description === undefined) {
           cleanConfig[item].description = '';
         }
         cleanConfig[item].value = cleanConfig[item].default;
+        if ((cleanConfig[item].input_type === 'enum') || (cleanConfig[item].input_type === 'set')) {
+          cleanConfig[item].value = cleanConfig[item].default.split(',')[0]; // eslint-disable-line
+        }
         return item;
       });
       dispatch({
@@ -70,6 +73,24 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
       type: 'HANDLE INPUT TEXT',
       field: e.target.id,
       payload: e.target.value,
+    });
+  };
+
+  // handles set of data, can be modified to make arrays for json version
+  const handleChangeSelect = (data) => {
+    const { id } = data[0];
+    let input = '';
+    for (let i = 0; i < data.length; i += 1) {
+      if (i === 0) {
+        input = data[i].value;
+      } else {
+        input += `, ${data[i].value}`;
+      }
+    }
+    dispatch({
+      type: 'HANDLE INPUT TEXT',
+      field: id,
+      payload: input,
     });
   };
 
@@ -110,17 +131,11 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
       temp[item] = toJson[item].value;
       return item;
     });
-    const fileContent = `data:application/json;charset=utf-8,${JSON.stringify(temp)}`;
+    const fileContent = JSON.stringify(temp);
     const file = new Blob([fileContent], { // eslint-disable-line
       type: 'application/json',
     });
     onInputFormSubmit(file, `${fName}.${fType}`);
-    const encodedUri = encodeURI(fileContent);
-    const link = document.createElement('a'); // eslint-disable-line
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `${fName}.${fType}`);
-    document.body.appendChild(link); // eslint-disable-line
-    link.click(); // This will download the data file named "my_data.rc".
   };
 
   const handleSubmit = async () => {
@@ -152,19 +167,25 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
           {formBuilder.map((item) => {
             const field = config[item];
             let fieldName;
+            let fieldId = '';
             if (config[item].prompt === undefined) {
               fieldName = item;
             } else {
               fieldName = config[item].prompt;
+            }
+            if (typeof (item) === 'string') {
+              fieldId = item;
             }
             return (
               <FormBuilder
                 key={item}
                 type={fType}
                 field={field}
+                fieldId={fieldId}
                 fieldName={fieldName}
                 value={toJson[item]}
                 handleChange={handleChange}
+                handleChangeSelect={handleChangeSelect}
               />
             );
           })}
