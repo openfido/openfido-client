@@ -41,12 +41,14 @@ const AppDropdownMenu = styled(Menu)`
   right: 16px;
   right: 1rem;
   margin-bottom: 70px;
+  height: auto;
 `;
 
 const AppDropdownMenuItem = styled(Menu.Item)`
   padding: 10px;
   padding: 0.625rem;
   text-align: center;
+  height: auto;
   a {
     color: ${colors.lightBlue};
     font-weight: 500;
