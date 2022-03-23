@@ -11,11 +11,12 @@ const gitApi = {
 
   // list for dropdown of all repositories that can generate a pipeline, cleaned of excess data
   getPotentialPipelines: async () => {
+    console.log('bt', potentialPipelines);
     const response = await axios({
       method: 'get',
-      url: `${potentialPipelines}`,
+      url: potentialPipelines,
     })
-      .then((res) => res)
+      .then((res) => { console.log('hmm', res); return res; })
       .catch((err) => console.log(err));
     const data = response.data.items;
     const cleanData = data.map((repo) => {
@@ -33,9 +34,10 @@ const gitApi = {
   // accept header application/vnd.github.VERSION.raw is REQUIRED to decrypt file contents
   getManifest: async (url) => {
     const temp = `${url}/contents/manifest.json`;
+    console.log('bt', temp);
     const response = await axios({
       method: 'get',
-      url: `${temp}`,
+      url: temp,
       headers: {
         accept: 'application/vnd.github.VERSION.raw',
       },
