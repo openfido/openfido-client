@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// import { CSVLink } from 'react-csv';
 import {
   StyledButton,
 } from 'styles/app';
@@ -28,10 +27,6 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
   const [formBuilder, setFormBuilder] = useState([]);
   const [isHidden, setIsHidden] = useState(false);
   const [toCsv, dispatch] = useReducer(formReducer, DEFAULT_STATE);
-
-  // used for when submitted
-  // const [convertedCsv, setConvertedCsv] = useState([]);
-  // const csvLink = useRef();
 
   useEffect(() => {
     const [fname, type] = formType;
@@ -116,15 +111,6 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
       type: 'text/plain',
     });
     onInputFormSubmit(file, `${fName}.${fType}`);
-    /*
-    const fileDownload = `data:text/plain;charset=utf-8,${fileContent}`;
-    const encodedUri = encodeURI(fileDownload);
-    const link = document.createElement('a'); // eslint-disable-line
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `${fName}.${fType}`);
-    document.body.appendChild(link); // eslint-disable-line
-    link.click(); // This will download the configured default filename".
-    */
   };
 
   // currently async due to use of setConvertedCsv
@@ -140,19 +126,9 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
       ]);
       return item;
     });
-    // await setConvertedCsv(temp);
     const csvContent = temp.map((e) => e.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv' }); // eslint-disable-line
     onInputFormSubmit(blob, `${fName}.${fType}`);
-    /* csvLink.current.link.click();
-              <CSVLink
-            data={convertedCsv}
-            filename={`${fName}.${fType}`}
-            className="hidden"
-            ref={csvLink}
-            target="_blank"
-          />
-          */
   };
 
   const handleSubmit = async () => {

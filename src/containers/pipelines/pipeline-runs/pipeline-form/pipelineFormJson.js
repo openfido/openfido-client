@@ -118,15 +118,6 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
       type: 'application/json',
     });
     onInputFormSubmit(file, `${fName}.${fType}`);
-    /*
-    const fileDownload = `data:text/plain;charset=utf-8,${fileContent}`;
-    const encodedUri = encodeURI(fileDownload);
-    const link = document.createElement('a'); // eslint-disable-line
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `${fName}.${fType}`);
-    document.body.appendChild(link); // eslint-disable-line
-    link.click(); // This will download the data file name based on fName and fType.
-    */
   };
 
   const handleSubmit = async () => {
