@@ -33,11 +33,15 @@ const gitApi = {
   // accept header application/vnd.github.VERSION.raw is REQUIRED to decrypt file contents
   getManifest: async (url) => {
     const temp = `${url}/contents/manifest.json`;
-    const response = await axios.get(temp, {
+    const response = await axios({
+      method: 'get',
+      url: `${temp}`,
       headers: {
         accept: 'application/vnd.github.VERSION.raw',
       },
-    });
+    })
+      .then((res) => res)
+      .catch((err) => console.log(err));
     return response.data;
   },
 
