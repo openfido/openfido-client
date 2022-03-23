@@ -40,6 +40,7 @@ const AppDropdownMenu = styled(Menu)`
   min-width: 87px;
   right: 16px;
   right: 1rem;
+  margin-bottom: 70px;
 `;
 
 const AppDropdownMenuItem = styled(Menu.Item)`
