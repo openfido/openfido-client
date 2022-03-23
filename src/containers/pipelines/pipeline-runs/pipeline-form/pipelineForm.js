@@ -79,6 +79,24 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
     });
   };
 
+  // converts the data selected into a proper csv-string before updating state
+  const handleChangeSelect = (data) => {
+    const { id } = data[0];
+    let input = '';
+    for (let i = 0; i < data.length; i += 1) {
+      if (i === 0) {
+        input = data[i].value;
+      } else {
+        input += `, ${data[i].value}`;
+      }
+    }
+    dispatch({
+      type: 'HANDLE INPUT TEXT',
+      field: id,
+      payload: input,
+    });
+  };
+
   // const formValidator = (configMapable) => {
   //   // do magic;
   //   let passing = true;
@@ -185,6 +203,7 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
                 fieldName={fieldName}
                 value={toCsv[item]}
                 handleChange={handleChange}
+                handleChangeSelect={handleChangeSelect}
               />
             );
           })}

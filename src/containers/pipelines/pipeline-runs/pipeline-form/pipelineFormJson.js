@@ -76,6 +76,24 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
     });
   };
 
+  // handles set of data, can be modified to make arrays for json version
+  const handleChangeSelect = (data) => {
+    const { id } = data[0];
+    let input = '';
+    for (let i = 0; i < data.length; i += 1) {
+      if (i === 0) {
+        input = data[i].value;
+      } else {
+        input += `, ${data[i].value}`;
+      }
+    }
+    dispatch({
+      type: 'HANDLE INPUT TEXT',
+      field: id,
+      payload: input,
+    });
+  };
+
   // const formValidator = (configMapable) => {
   //   // do magic;
   //   let passing = true;
@@ -167,6 +185,7 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
                 fieldName={fieldName}
                 value={toJson[item]}
                 handleChange={handleChange}
+                handleChangeSelect={handleChangeSelect}
               />
             );
           })}

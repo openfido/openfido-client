@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Dropdown, Menu } from 'antd';
+import ReactSelect from 'react-select';
 import colors from 'styles/colors';
 import QmarkOutlined from 'icons/QmarkOutlined';
 
@@ -64,7 +65,7 @@ const FormInput = styled.input`
 `;
 
 const FormBuilder = ({
-  field, fieldName, fieldId, handleChange, value, type,
+  field, fieldName, fieldId, handleChange, value, type, handleChangeSelect,
 }) => {
   // simple dropdown tooltip
   const menu = (
@@ -85,6 +86,7 @@ const FormBuilder = ({
   let requirement = '';
   const isValid = validInputTypes[type].includes(field.input_type);
   let isSelect = false;
+  let isMultiSelect = false;
 
   switch (field.input_type) {
     case 'str':
@@ -129,11 +131,41 @@ const FormBuilder = ({
       break;
     case 'set':
       isSelect = true;
+      isMultiSelect = true;
       requirement = '(choose all that apply)';
       break;
     default:
       fieldType = 'text';
       requirement = '(invalid configuration)';
+  }
+
+  if (isMultiSelect) {
+    // magic happens here
+    const options = [];
+    field.default.split(',').map((choice) => options.push({
+      label: choice,
+      value: choice,
+      id: fieldId,
+    }));
+    return (
+      <>
+        <FormLabel>
+          {fieldName}
+          {requirement}
+        </FormLabel>
+        <ReactSelect
+          isMulti
+          options={options}
+          name="ReactSelect"
+          isClearable
+          onChange={(e) => handleChangeSelect(e)}
+        />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
+        <br />
+      </>
+    );
   }
 
   if (isSelect) {
@@ -218,6 +250,7 @@ FormBuilder.propTypes = {
   fieldName: PropTypes.string.isRequired,
   fieldId: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
+  handleChangeSelect: PropTypes.func.isRequired,
   value: PropTypes.shape({
     value: PropTypes.oneOfType([
       PropTypes.string,
