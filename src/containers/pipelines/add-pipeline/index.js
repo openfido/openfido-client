@@ -64,6 +64,7 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
     };
     gitApi.getManifest(url.url)
       .then((response) => {
+        console.log('start in the middle', response);
         setFields({
           name: url.name.charAt(0).toUpperCase() + url.name.slice(1),
           description: url.description,
