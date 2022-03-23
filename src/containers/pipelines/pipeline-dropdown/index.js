@@ -83,13 +83,16 @@ const PipelineDropdown = (updateFromDropdown) => {
   const menu = (
     <AppDropdownMenu>
       <AppDropdownMenuItem>
-        {pipelines.map((pipe) => (
-          <PipelineSelector
-            pipeline={pipe}
-            key={pipe.id}
-            updateFromDropdown={updateFromDropdown}
-          />
-        ))}
+        {pipelines.map((pipe) => {
+          console.log('BUT HERE?!?', pipe, pipelines);
+          return (
+            <PipelineSelector
+              pipeline={pipe}
+              key={pipe.id}
+              updateFromDropdown={updateFromDropdown}
+            />
+          );
+        })}
       </AppDropdownMenuItem>
     </AppDropdownMenu>
   );
