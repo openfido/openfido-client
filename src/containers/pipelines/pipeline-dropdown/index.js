@@ -72,6 +72,7 @@ const PipelineDropdown = (updateFromDropdown) => {
     gitApi.getPotentialPipelines()
       .then((response) => {
         if (response !== 'undefined') {
+          console.log('here?!?', response);
           setPipelines(response);
         }
       }, (error) => {
