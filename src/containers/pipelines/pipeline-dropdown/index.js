@@ -93,7 +93,6 @@ const PipelineDropdown = (updateFromDropdown) => {
             updateFromDropdown={updateFromDropdown}
           />
         ))}
-        <option>HMMMM</option>
       </AppDropdownMenuItem>
     </AppDropdownMenu>
   );

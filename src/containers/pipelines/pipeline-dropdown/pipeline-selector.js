@@ -1,21 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const Button = styled.button`
+background: none!important;
+border: none;
+padding: 0!important;
+`;
 
 const PipelineSelector = (props) => {
 // assign required values to each element for click handler
   const { pipeline, updateFromDropdown } = props;
   return (
-    <option
-      id={pipeline.id}
-      data-url={pipeline.url}
-      data-fullname={pipeline.full_name}
-      data-description={pipeline.description}
-      onClick={(e) => {
-        updateFromDropdown.updateFromDropdown(e);
-      }}
-    >
-      {pipeline.full_name.charAt(0).toUpperCase() + pipeline.full_name.slice(1)}
-    </option>
+    <div>
+      <Button
+        type="button"
+        role="menuitem"
+        id={pipeline.id}
+        data-url={pipeline.url}
+        data-fullname={pipeline.full_name}
+        data-description={pipeline.description}
+        onClick={(e) => {
+          updateFromDropdown.updateFromDropdown(e);
+        }}
+      >
+        {pipeline.full_name.charAt(0).toUpperCase() + pipeline.full_name.slice(1)}
+      </Button>
+    </div>
   );
 };
 
