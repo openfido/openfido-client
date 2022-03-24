@@ -153,16 +153,28 @@ const FormBuilder = ({
           {fieldName}
           {requirement}
         </FormLabel>
-        <ReactSelect
-          isMulti
-          options={options}
-          name="ReactSelect"
-          isClearable
-          onChange={(e) => handleChangeSelect(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+        >
+          <div
+            style={{
+              minWidth: '83%',
+            }}
+          >
+            <ReactSelect
+              isMulti
+              options={options}
+              name="ReactSelect"
+              isClearable
+              onChange={(e) => handleChangeSelect(e)}
+            />
+          </div>
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
+        </div>
         <br />
       </>
     );
