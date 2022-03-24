@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 const PipelineSelector = (props) => {
 // assign required values to each element for click handler
-  console.log('IS THIS IS?!?', props);
   const { pipeline, updateFromDropdown } = props;
   return (
     <option

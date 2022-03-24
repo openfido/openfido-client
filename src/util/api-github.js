@@ -16,7 +16,7 @@ const gitApi = {
       method: 'get',
       url: potentialPipelines,
     })
-      .then((res) => { console.log('hmm', res); return res; })
+      .then((res) => res)
       .catch((err) => console.log(err));
     const data = response.data.items;
     const cleanData = data.map((repo) => {
@@ -34,7 +34,6 @@ const gitApi = {
   // accept header application/vnd.github.VERSION.raw is REQUIRED to decrypt file contents
   getManifest: async (url) => {
     const temp = `${url}/contents/manifest.json`;
-    console.log('bt', temp);
     const response = await axios({
       method: 'get',
       url: temp,

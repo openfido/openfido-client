@@ -62,12 +62,12 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
       name: e.target.dataset.fullname,
       description: e.target.dataset.description,
     };
+    const name = url.name.charAt(0).toUpperCase() + url.name.slice(1);
     gitApi.getManifest(url.url)
       .then((response) => {
-        console.log('start in the middle', response);
         setFields({
-          name: url.name.charAt(0).toUpperCase() + url.name.slice(1),
-          description: url.description,
+          name: (response.name || name),
+          description: (response.description || url.description),
           docker_image_url: response.docker,
           repository_ssh_url: response.git,
           repository_branch: response.branch,

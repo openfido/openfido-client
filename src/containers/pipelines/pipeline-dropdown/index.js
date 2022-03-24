@@ -75,7 +75,6 @@ const PipelineDropdown = (updateFromDropdown) => {
     gitApi.getPotentialPipelines()
       .then((response) => {
         if (response !== 'undefined') {
-          console.log('here?!?', response);
           setPipelines(response);
         }
       }, (error) => {
@@ -87,7 +86,6 @@ const PipelineDropdown = (updateFromDropdown) => {
     <AppDropdownMenu>
       <AppDropdownMenuItem>
         {pipelines.map((pipe) => {
-          console.log('BUT HERE?!?', pipe, pipelines);
           return (
             <PipelineSelector
               pipeline={pipe}
