@@ -63,18 +63,6 @@ const AppDropdownMenuItem = styled(Menu.Item)`
   }
 `;
 
-const Test = styled.div`
-.ant-dropdown-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  .anticon {
-    margin-left: 6px;
-  }
-}
-`;
-
 const PipelineDropdown = (updateFromDropdown) => {
   const [pipelines, setPipelines] = useState([
     {
@@ -111,16 +99,14 @@ const PipelineDropdown = (updateFromDropdown) => {
   );
 
   return (
-    <Test>
-      <AppDropdown overlay={menu} trigger="click">
-        <div aria-label="App dropdown">
-          <StyledText style={{ textAlign: 'left' }} color="darkText">
-            Import from Github
-          </StyledText>
-          <DownOutlined color="gray20" />
-        </div>
-      </AppDropdown>
-    </Test>
+    <AppDropdown overlay={menu} trigger="click">
+      <div aria-label="App dropdown">
+        <StyledText style={{ textAlign: 'left' }} color="darkText">
+          Import from Github
+        </StyledText>
+        <DownOutlined color="gray20" />
+      </div>
+    </AppDropdown>
   );
 };
 

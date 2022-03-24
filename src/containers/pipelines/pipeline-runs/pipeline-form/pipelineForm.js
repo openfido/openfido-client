@@ -159,6 +159,7 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
     } else if (fType === 'rc') {
       handleRc(configMapable);
     }
+    clickHide();
   };
 
   // generates a form based on the length of the config file
