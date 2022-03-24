@@ -4,8 +4,11 @@ import styled from 'styled-components';
 import DownOutlined from 'icons/DownOutlined';
 import {
   StyledText,
+  StyledLayout,
+  StyledContent,
 } from 'styles/app';
 import { Dropdown, Menu } from 'antd';
+
 import colors from 'styles/colors';
 
 import gitApi from 'util/api-github';
@@ -85,28 +88,30 @@ const PipelineDropdown = (updateFromDropdown) => {
   const menu = (
     <AppDropdownMenu>
       <AppDropdownMenuItem>
-        {pipelines.map((pipe) => {
-          return (
-            <PipelineSelector
-              pipeline={pipe}
-              key={pipe.id}
-              updateFromDropdown={updateFromDropdown}
-            />
-          );
-        })}
+        {pipelines.map((pipe) => (
+          <PipelineSelector
+            pipeline={pipe}
+            key={pipe.id}
+            updateFromDropdown={updateFromDropdown}
+          />
+        ))}
       </AppDropdownMenuItem>
     </AppDropdownMenu>
   );
 
   return (
-    <AppDropdown overlay={menu} trigger="click">
-      <div aria-label="App dropdown">
-        <StyledText style={{ textAlign: 'left' }} color="darkText">
-          Import from Github
-        </StyledText>
-        <DownOutlined color="gray20" />
-      </div>
-    </AppDropdown>
+    <StyledLayout>
+      <StyledContent>
+        <AppDropdown overlay={menu} trigger="click">
+          <div aria-label="App dropdown">
+            <StyledText style={{ textAlign: 'left' }} color="darkText">
+              Import from Github
+            </StyledText>
+            <DownOutlined color="gray20" />
+          </div>
+        </AppDropdown>
+      </StyledContent>
+    </StyledLayout>
   );
 };
 

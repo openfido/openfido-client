@@ -14,7 +14,7 @@ const PipelineSelector = (props) => {
         updateFromDropdown.updateFromDropdown(e);
       }}
     >
-      {pipeline.full_name}
+      {pipeline.full_name.charAt(0).toUpperCase() + pipeline.full_name.slice(1)}
     </option>
   );
 };
