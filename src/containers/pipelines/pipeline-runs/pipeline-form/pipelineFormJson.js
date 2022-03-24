@@ -69,10 +69,14 @@ const PipelineFormJson = ({ config, formType, onInputFormSubmit }) => {
   };
 
   const handleChange = (e) => {
+    let update = e.target.value;
+    if (config[e.target.id].input_type === 'boolean') {
+      update = e.target.checked;
+    }
     dispatch({
       type: 'HANDLE INPUT TEXT',
       field: e.target.id,
-      payload: e.target.value,
+      payload: update,
     });
   };
 
