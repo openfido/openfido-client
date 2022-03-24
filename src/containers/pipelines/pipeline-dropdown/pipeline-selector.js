@@ -8,11 +8,17 @@ border: none;
 padding: 0!important;
 `;
 
+const StyledContainer = styled.div`
+:hover {
+  background-color: yellow;
+};
+`;
+
 const PipelineSelector = (props) => {
 // assign required values to each element for click handler
   const { pipeline, updateFromDropdown } = props;
   return (
-    <div>
+    <StyledContainer>
       <Button
         type="button"
         role="menuitem"
@@ -26,7 +32,7 @@ const PipelineSelector = (props) => {
       >
         {pipeline.full_name.charAt(0).toUpperCase() + pipeline.full_name.slice(1)}
       </Button>
-    </div>
+    </StyledContainer>
   );
 };
 

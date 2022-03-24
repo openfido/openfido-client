@@ -42,13 +42,14 @@ const AppDropdownMenu = styled(Menu)`
   right: 16px;
   right: 1rem;
   margin-bottom: 70px;
+  margin-left: 15px;
   height: auto;
 `;
 
 const AppDropdownMenuItem = styled(Menu.Item)`
   padding: 10px;
   padding: 0.625rem;
-  text-align: center;
+  text-align: left;
   height: auto;
   a {
     color: ${colors.lightBlue};
@@ -60,6 +61,18 @@ const AppDropdownMenuItem = styled(Menu.Item)`
   &:hover {
     background-color: transparent;
   }
+`;
+
+const Test = styled.div`
+.ant-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  .anticon {
+    margin-left: 6px;
+  }
+}
 `;
 
 const PipelineDropdown = (updateFromDropdown) => {
@@ -98,14 +111,16 @@ const PipelineDropdown = (updateFromDropdown) => {
   );
 
   return (
-    <AppDropdown overlay={menu} trigger="click">
-      <div aria-label="App dropdown">
-        <StyledText style={{ textAlign: 'left' }} color="darkText">
-          Import from Github
-        </StyledText>
-        <DownOutlined color="gray20" />
-      </div>
-    </AppDropdown>
+    <Test>
+      <AppDropdown overlay={menu} trigger="click">
+        <div aria-label="App dropdown">
+          <StyledText style={{ textAlign: 'left' }} color="darkText">
+            Import from Github
+          </StyledText>
+          <DownOutlined color="gray20" />
+        </div>
+      </AppDropdown>
+    </Test>
   );
 };
 
