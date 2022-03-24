@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import DownOutlined from 'icons/DownOutlined';
 import {
   StyledText,
-  StyledLayout,
-  StyledContent,
 } from 'styles/app';
 import { Dropdown, Menu } from 'antd';
 
@@ -95,23 +93,20 @@ const PipelineDropdown = (updateFromDropdown) => {
             updateFromDropdown={updateFromDropdown}
           />
         ))}
+        Hmm
       </AppDropdownMenuItem>
     </AppDropdownMenu>
   );
 
   return (
-    <StyledLayout>
-      <StyledContent>
-        <AppDropdown overlay={menu} trigger="click">
-          <div aria-label="App dropdown">
-            <StyledText style={{ textAlign: 'left' }} color="darkText">
-              Import from Github
-            </StyledText>
-            <DownOutlined color="gray20" />
-          </div>
-        </AppDropdown>
-      </StyledContent>
-    </StyledLayout>
+    <AppDropdown overlay={menu} trigger="click">
+      <div aria-label="App dropdown">
+        <StyledText style={{ textAlign: 'left' }} color="darkText">
+          Import from Github
+        </StyledText>
+        <DownOutlined color="gray20" />
+      </div>
+    </AppDropdown>
   );
 };
 

@@ -21,12 +21,17 @@ const PipelineSelector = (props) => {
 
 PipelineSelector.propTypes = {
   pipeline: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]).isRequired,
     url: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     full_name: PropTypes.string.isRequired,
   }).isRequired,
-  updateFromDropdown: PropTypes.func.isRequired,
+  updateFromDropdown: PropTypes.shape({
+    updateFromDropdown: PropTypes.func.isRequired,
+  }).isRequired,
 
 };
 
