@@ -19,7 +19,6 @@ import {
 import colors from 'styles/colors';
 import gitApi from 'util/api-github';
 import PipelineForm from '../pipeline-form/pipelineForm';
-import PipelineFormJson from '../pipeline-form/pipelineFormJson';
 
 const Modal = styled(StyledModal)`
   h2 {
