@@ -5,6 +5,9 @@ import { Dropdown, Menu } from 'antd';
 import ReactSelect from 'react-select';
 import colors from 'styles/colors';
 import QmarkOutlined from 'icons/QmarkOutlined';
+import {
+  StyledButton,
+} from 'styles/app';
 
 const AppDropdown = styled(Dropdown)`
   user-select: none;
@@ -89,6 +92,7 @@ const FormBuilder = ({
   let isSelect = false;
   let isMultiSelect = false;
   let boolDefault = false;
+  let isUpload = false;
 
   // updates the variables to generate a field based on the provided input type
   switch (field.input_type) {
@@ -137,6 +141,11 @@ const FormBuilder = ({
       isSelect = true;
       isMultiSelect = true;
       requirement = '(choose all that apply)';
+      break;
+    case 'upload':
+      isUpload = true;
+      fieldType = 'file';
+      requirement = '';
       break;
     default:
       fieldType = 'text';
@@ -202,6 +211,44 @@ const FormBuilder = ({
         <AppDropdown overlay={menu} trigger="click">
           <QmarkOutlined />
         </AppDropdown>
+        <br />
+      </>
+    );
+  }
+
+  if (isUpload) {
+    return (
+      <>
+        <FormLabel>
+          {fieldName}
+          {requirement}
+        </FormLabel>
+        <StyledButton
+          type="text"
+          size="middle"
+          textcolor="lightBlue"
+          style={{ minWidth: '10rem' }}
+        >
+          <label htmlFor={fieldId}>
+            <strong>Click to upload</strong>
+          </label>
+        </StyledButton>
+        <FormInput
+          type={fieldType}
+          id={fieldId}
+          name={fieldName}
+          onChange={(e) => handleChange(e)}
+        />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
+        <br />
+        <FormLabel>
+          Uploaded file name:
+        </FormLabel>
+        <span>
+          <strong><u>{value.value}</u></strong>
+        </span>
         <br />
       </>
     );

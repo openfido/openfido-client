@@ -20,7 +20,9 @@ const PipelineFormStyled = styled.form`
 
 const DEFAULT_STATE = {};
 
-const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
+const PipelineForm = ({
+  config, formType, onInputFormSubmit, handleFormFieldUpload,
+}) => {
   const [fType, setFormType] = useState(undefined);
   const [fName, setFormName] = useState(undefined);
 
@@ -78,6 +80,16 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
     let update = e.target.value;
     if (config[e.target.id].input_type === 'boolean') {
       update = `${e.target.checked}`;
+    }
+    if (config[e.target.id].input_type === 'upload') {
+      if (e.target.files) {
+        const [file] = e.target.files;
+        update = file.name;
+      } else if (e.dataTransfer.files) {
+        const [file] = e.dataTransfer.files;
+        update = file.name;
+      }
+      handleFormFieldUpload(e);
     }
     dispatch({
       type: 'HANDLE INPUT TEXT',
@@ -144,6 +156,7 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
     const file = new Blob([fileContent], { // eslint-disable-line
       type: datatype,
     });
+    console.log(fileContent);
     onInputFormSubmit(file, `${fName}.${fType}`);
   };
 
@@ -235,6 +248,7 @@ const PipelineForm = ({ config, formType, onInputFormSubmit }) => {
                 value={toFile[item]}
                 handleChange={handleChange}
                 handleChangeSelect={handleChangeSelect}
+                handleFormFieldUpload={handleFormFieldUpload}
               />
             );
           })}
@@ -257,6 +271,7 @@ PipelineForm.propTypes = {
     root: PropTypes.string,
   }).isRequired,
   onInputFormSubmit: PropTypes.func.isRequired,
+  handleFormFieldUpload: PropTypes.func.isRequired,
   formType: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

@@ -182,6 +182,7 @@ const StartRunPopup = ({
   // files are done uploading to the pipeline
   const onInputsChangedOrDropped = (e) => {
     e.preventDefault();
+    console.log(e.target.files, e.dataTransfer.files);
 
     Array.from(e.target.files || e.dataTransfer.files).forEach((file) => {
       const fileReader = new window.FileReader();
@@ -250,6 +251,30 @@ const StartRunPopup = ({
     fileReader.readAsArrayBuffer(data);
   };
 
+  const handleFormFieldUpload = (e) => {
+    e.preventDefault();
+    let file;
+
+    if (e.target.files) {
+      [file] = e.target.files;
+    } else if (e.dataTransfer.files) {
+      [file] = e.dataTransfer.files;
+    }
+
+    const fileReader = new window.FileReader();
+    fileReader.addEventListener('loadstart', () => {
+      setIsLoading(true);
+    });
+    fileReader.addEventListener('loadend', () => {
+      setIsLoading(false);
+    });
+    fileReader.onload = () => {
+      dispatch(uploadInputFile(currentOrg, pipeline_uuid, file.name, fileReader.result));
+    };
+
+    fileReader.readAsArrayBuffer(file);
+  };
+
   const handleOpenPiplineClick = () => {
     window.open(piplineUrl);
   };
@@ -288,6 +313,7 @@ const StartRunPopup = ({
                 key={item}
                 formType={[item, manifest.manual[item]]}
                 onInputFormSubmit={(arrayBuffer, fileName) => handleInputFormSubmit(arrayBuffer, fileName)}
+                handleFormFieldUpload={handleFormFieldUpload}
               />
             );
           })
