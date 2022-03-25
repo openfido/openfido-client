@@ -18,6 +18,7 @@ const StyledContainer = styled.div`
 
 const PipelineSelector = (props) => {
 // assign required values to each element for click handler
+// OPTION element doesn't work correctly in Safari, had to use workaround for compatability
   const { pipeline, updateFromDropdown } = props;
   return (
     <StyledContainer>

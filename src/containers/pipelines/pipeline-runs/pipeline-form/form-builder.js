@@ -82,6 +82,7 @@ const FormBuilder = ({
     json: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'arr', 'enum', 'set', 'title', 'upload'],
   };
 
+  // variable list to automatically (and cleanly) update field generation
   let fieldType = 'text';
   let requirement = '';
   const isValid = validInputTypes[type].includes(field.input_type);
@@ -89,6 +90,7 @@ const FormBuilder = ({
   let isMultiSelect = false;
   let boolDefault = false;
 
+  // updates the variables to generate a field based on the provided input type
   switch (field.input_type) {
     case 'str':
       fieldType = 'text';
@@ -141,8 +143,8 @@ const FormBuilder = ({
       requirement = '(invalid configuration)';
   }
 
+  // looking at merging multi select and select for cleaner/consistent implementation and styling
   if (isMultiSelect) {
-    // magic happens here
     const options = [];
     field.default.split(',').map((choice) => options.push({
       label: choice,
@@ -205,6 +207,7 @@ const FormBuilder = ({
     );
   }
 
+  // variables are great! almost as good as comments that tell you the past variables make this run
   if (isValid) {
     if (field.input_type !== 'title') {
       return (
@@ -239,6 +242,7 @@ const FormBuilder = ({
     }
   }
 
+  // Tells the user in which input they misconfigured the manifest.
   return (
     <>
       <div>

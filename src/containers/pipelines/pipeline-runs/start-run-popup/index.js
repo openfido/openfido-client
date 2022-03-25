@@ -165,9 +165,7 @@ const StartRunPopup = ({
 
   useEffect(() => {
     // uses the passed-in URL to grab the manifest
-    // Object.keys(response.manual) to build array
-    // Use .map((key) => {}) of result to build multiple forms
-    // Pass in the correct response.manual[key] value to build correct form type
+    // Object.keys(response.manual) to determine which forms to build
     gitApi.getManifest(configUrl)
       .then((response) => {
         if (response.manual === undefined) {
@@ -181,21 +179,19 @@ const StartRunPopup = ({
       });
   }, [configUrl]);
 
+  // When file(s) selected from browse, or dropped on the box, disable start run until
+  // files are done uploading to the pipeline
   const onInputsChangedOrDropped = (e) => {
     e.preventDefault();
 
     Array.from(e.target.files || e.dataTransfer.files).forEach((file) => {
       const fileReader = new window.FileReader();
       fileReader.addEventListener('loadstart', () => {
-        console.log('start');
         setIsLoading(true);
       });
-      fileReader.addEventListener('loadend', () => {
-        console.log('end');
-        setIsLoading(false);
-      });
       fileReader.onload = () => {
-        dispatch(uploadInputFile(currentOrg, pipeline_uuid, file.name, fileReader.result));
+        dispatch(uploadInputFile(currentOrg, pipeline_uuid, file.name, fileReader.result))
+          .then(() => setIsLoading(false));
       };
 
       fileReader.readAsArrayBuffer(file);
@@ -233,13 +229,21 @@ const StartRunPopup = ({
     dispatch(removeInputFile(index));
   };
 
+  // clears input files on closing the modal to prevent cross contamination
   const onCloseStartRunPopup = () => {
     handleCancel();
     dispatch(clearInputFiles());
   };
 
+  // passed into the form generators to upload the processed form data into the pipeline
   const handleInputFormSubmit = async (data, fileName) => {
     const fileReader = new window.FileReader();
+    fileReader.addEventListener('loadstart', () => {
+      setIsLoading(true);
+    });
+    fileReader.addEventListener('loadend', () => {
+      setIsLoading(false);
+    });
     fileReader.onload = () => {
       dispatch(uploadInputFile(currentOrg, pipeline_uuid, fileName, fileReader.result));
     };
@@ -278,17 +282,6 @@ const StartRunPopup = ({
             // Don't attempt a render if there is nothing to render yet
             if (manual.length === 0) {
               return <div />;
-            }
-            // separated json form from csv/rc form to allow for more complicated, targeted logic
-            if (manifest.manual[item] === 'json') {
-              return (
-                <PipelineFormJson
-                  config={manifest[item]}
-                  key={item}
-                  formType={[item, manifest.manual[item]]}
-                  onInputFormSubmit={(arrayBuffer, fileName) => handleInputFormSubmit(arrayBuffer, fileName)}
-                />
-              );
             }
             return (
               <PipelineForm
