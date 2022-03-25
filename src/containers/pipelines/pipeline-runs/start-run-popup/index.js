@@ -161,6 +161,7 @@ const StartRunPopup = ({
 
   const [manifest, setManifest] = useState(null);
   const [manual, setManual] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // uses the passed-in URL to grab the manifest
@@ -185,6 +186,14 @@ const StartRunPopup = ({
 
     Array.from(e.target.files || e.dataTransfer.files).forEach((file) => {
       const fileReader = new window.FileReader();
+      fileReader.addEventListener('loadstart', () => {
+        console.log('start');
+        setIsLoading(true);
+      });
+      fileReader.addEventListener('loadend', () => {
+        console.log('end');
+        setIsLoading(false);
+      });
       fileReader.onload = () => {
         dispatch(uploadInputFile(currentOrg, pipeline_uuid, file.name, fileReader.result));
       };
@@ -330,6 +339,7 @@ const StartRunPopup = ({
           </div>
         </ArtifactsSection>
         <StyledButton
+          disabled={isLoading}
           aria-label="Start Run button"
           size="middle"
           color="blue"

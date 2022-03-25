@@ -77,9 +77,9 @@ const FormBuilder = ({
   );
 
   const validInputTypes = {
-    csv: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'enum', 'set', 'title'],
-    rc: ['str', 'title'],
-    json: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'arr', 'enum', 'set', 'title'],
+    csv: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'enum', 'set', 'title', 'upload'],
+    rc: ['str', 'title', 'upload'],
+    json: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'arr', 'enum', 'set', 'title', 'upload'],
   };
 
   let fieldType = 'text';
