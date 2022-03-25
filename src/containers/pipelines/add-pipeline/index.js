@@ -35,6 +35,7 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
   const [errors, setErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [failedLoadManifest, setLoadManifest] = useState('none');
 
   const currentOrg = useSelector((state) => state.user.currentOrg);
 
@@ -65,6 +66,7 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
     const name = url.name.charAt(0).toUpperCase() + url.name.slice(1);
     gitApi.getManifest(url.url)
       .then((response) => {
+        setLoadManifest('none');
         setFields({
           name: (response.name || name),
           description: (response.description || url.description),
@@ -75,13 +77,14 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
         });
       }, (error) => {
         setFields({
-          name: 'Error',
+          name: '',
           description: '',
           docker_image_url: '',
           repository_ssh_url: '',
           repository_branch: '',
           repository_script: '',
         });
+        setLoadManifest('block');
         console.log(error);
       });
   };
@@ -163,6 +166,15 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
     <AddPipelineForm onSubmit={onAddPipelineClicked}>
       <StyledH3 color="black">Add a pipeline</StyledH3>
       <PipelineDropdown updateFromDropdown={updateFromDropdown} />
+      <br />
+      <StyledText
+        display={failedLoadManifest}
+        color="pink"
+      >
+        *Could not load autofillable data.
+        Please check that a manifest.json file is correctly configured
+        in the selected repository.
+      </StyledText>
       <Space direction="vertical" size={24}>
         <label htmlFor="name" style={{ width: '100%' }}>
           <StyledText
