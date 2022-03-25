@@ -5,6 +5,7 @@ import { Dropdown, Menu } from 'antd';
 import ReactSelect from 'react-select';
 import colors from 'styles/colors';
 import QmarkOutlined from 'icons/QmarkOutlined';
+import UploadBox from 'icons/UploadBox';
 import {
   StyledButton,
 } from 'styles/app';
@@ -246,6 +247,7 @@ const FormBuilder = ({
         <FormLabel>
           Uploaded file name:
         </FormLabel>
+        <UploadBox />
         <span>
           <strong><u>{value.value}</u></strong>
         </span>
