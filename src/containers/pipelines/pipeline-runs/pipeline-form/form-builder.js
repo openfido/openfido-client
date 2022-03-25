@@ -220,7 +220,7 @@ const FormBuilder = ({
   if (isUpload) {
     return (
       <>
-        <FormLabel>
+        <FormLabel style={{ minWidth: '10rem' }}>
           {fieldName}
           {requirement}
         </FormLabel>
@@ -228,10 +228,10 @@ const FormBuilder = ({
           type="text"
           size="middle"
           textcolor="lightBlue"
-          style={{ minWidth: '10rem' }}
+          style={{ minWidth: '5rem' }}
         >
           <label htmlFor={fieldId}>
-            <strong>Click to upload</strong>
+            <UploadBox />
           </label>
         </StyledButton>
         <FormInput
@@ -240,17 +240,17 @@ const FormBuilder = ({
           name={fieldName}
           onChange={(e) => handleChange(e)}
         />
+        <FormInput
+          type="text"
+          id={fieldId}
+          name={fieldName}
+          value={value.value}
+          defaultChecked={boolDefault}
+          onChange={(e) => handleChange(e)}
+        />
         <AppDropdown overlay={menu} trigger="click">
           <QmarkOutlined />
         </AppDropdown>
-        <br />
-        <FormLabel>
-          Uploaded file name:
-        </FormLabel>
-        <UploadBox />
-        <span>
-          <strong><u>{value.value}</u></strong>
-        </span>
         <br />
       </>
     );

@@ -85,11 +85,12 @@ const PipelineForm = ({
       if (e.target.files) {
         const [file] = e.target.files;
         update = file.name;
-      } else if (e.dataTransfer.files) {
+        handleFormFieldUpload(e);
+      } else if (e.dataTransfer) {
         const [file] = e.dataTransfer.files;
         update = file.name;
+        handleFormFieldUpload(e);
       }
-      handleFormFieldUpload(e);
     }
     dispatch({
       type: 'HANDLE INPUT TEXT',
