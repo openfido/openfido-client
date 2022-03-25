@@ -265,11 +265,9 @@ const StartRunPopup = ({
     fileReader.addEventListener('loadstart', () => {
       setIsLoading(true);
     });
-    fileReader.addEventListener('loadend', () => {
-      setIsLoading(false);
-    });
     fileReader.onload = () => {
-      dispatch(uploadInputFile(currentOrg, pipeline_uuid, file.name, fileReader.result));
+      dispatch(uploadInputFile(currentOrg, pipeline_uuid, file.name, fileReader.result))
+        .then(() => setIsLoading(false));
     };
 
     fileReader.readAsArrayBuffer(file);
