@@ -6,6 +6,8 @@ const Button = styled.button`
 background: none!important;
 border: none;
 padding: 0!important;
+width: 100%;
+text-align: left;
 `;
 
 const StyledContainer = styled.div`
