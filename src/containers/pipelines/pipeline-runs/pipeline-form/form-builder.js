@@ -87,6 +87,7 @@ const FormBuilder = ({
   const isValid = validInputTypes[type].includes(field.input_type);
   let isSelect = false;
   let isMultiSelect = false;
+  let boolDefault = false;
 
   switch (field.input_type) {
     case 'str':
@@ -118,8 +119,9 @@ const FormBuilder = ({
       requirement = '(required)';
       break;
     case 'boolean':
-      fieldType = 'text';
-      requirement = '(true/false)';
+      fieldType = 'checkbox';
+      requirement = '(enable/disable)';
+      boolDefault = (value.value === 'true');
       break;
     case 'arr':
       fieldType = 'text';
@@ -153,16 +155,28 @@ const FormBuilder = ({
           {fieldName}
           {requirement}
         </FormLabel>
-        <ReactSelect
-          isMulti
-          options={options}
-          name="ReactSelect"
-          isClearable
-          onChange={(e) => handleChangeSelect(e)}
-        />
-        <AppDropdown overlay={menu} trigger="click">
-          <QmarkOutlined />
-        </AppDropdown>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+        >
+          <div
+            style={{
+              minWidth: '83%',
+            }}
+          >
+            <ReactSelect
+              isMulti
+              options={options}
+              name="ReactSelect"
+              isClearable
+              onChange={(e) => handleChangeSelect(e)}
+            />
+          </div>
+          <AppDropdown overlay={menu} trigger="click">
+            <QmarkOutlined />
+          </AppDropdown>
+        </div>
         <br />
       </>
     );
@@ -204,6 +218,7 @@ const FormBuilder = ({
             id={fieldId}
             name={fieldName}
             value={value.value}
+            defaultChecked={boolDefault}
             onChange={(e) => handleChange(e)}
           />
           <AppDropdown overlay={menu} trigger="click">
