@@ -83,7 +83,7 @@ const PipelineForm = ({
       return item;
     });
     console.log('props', uploadedCsv, Array.isArray(uploadedCsv));
-  }, [uploadedCsv]);
+  }, [uploadedCsv, config]);
 
   const clickHide = () => {
     // magic button to hide/unhide form
