@@ -179,6 +179,9 @@ const FormBuilder = ({
           >
             <ReactSelect
               placeholder="Select your choices"
+              defaultValue={
+                options.filter((option) => field.default.includes(option.label))
+             }
               isMulti
               options={options}
               name="ReactSelect"
