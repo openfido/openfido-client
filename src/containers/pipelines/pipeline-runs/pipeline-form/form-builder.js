@@ -156,7 +156,7 @@ const FormBuilder = ({
   // looking at merging multi select and select for cleaner/consistent implementation and styling
   if (isMultiSelect) {
     const options = [];
-    field.choices.split(',').map((choice) => options.push({
+    field.choices.split(', ').map((choice) => options.push({
       label: choice,
       value: choice,
       id: fieldId,
@@ -208,13 +208,7 @@ const FormBuilder = ({
           value={value.value}
           onChange={(e) => handleChange(e)}
         >
-          {field.choices.split(', ').map((choice) => {
-            console.log(choice);
-            if (choice === value.value) {
-              return <option value={choice} key={choice} selected="selected">{choice}</option>;
-            }
-            return <option value={choice} key={choice}>{choice}</option>;
-          })}
+          {field.choices.split(', ').map((choice) => <option value={choice} key={choice}>{choice}</option>)}
         </FormSelect>
         <AppDropdown overlay={menu} trigger="click">
           <QmarkOutlined />
@@ -321,6 +315,7 @@ FormBuilder.propTypes = {
       PropTypes.bool,
     ]).isRequired,
     description: PropTypes.string.isRequired,
+    choices: PropTypes.string.isRequired,
   }).isRequired,
   fieldName: PropTypes.string.isRequired,
   fieldId: PropTypes.string.isRequired,

@@ -56,6 +56,9 @@ const PipelineForm = ({
         if (cleanConfig[item].input_type === undefined) {
           cleanConfig[item].input_type = 'str';
         }
+        if (cleanConfig[item].choices === undefined) {
+          cleanConfig[item].choices = '';
+        }
         cleanConfig[item].value = cleanConfig[item].default;
         return item;
       });
