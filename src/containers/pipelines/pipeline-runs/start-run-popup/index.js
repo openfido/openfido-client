@@ -161,6 +161,7 @@ const StartRunPopup = ({
   const [manifest, setManifest] = useState(null);
   const [manual, setManual] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadedCsv, setUploadedCsv] = useState([]);
 
   useEffect(() => {
     // uses the passed-in URL to grab the manifest
@@ -312,6 +313,7 @@ const StartRunPopup = ({
                 formType={[item, manifest.manual[item]]}
                 onInputFormSubmit={(arrayBuffer, fileName) => handleInputFormSubmit(arrayBuffer, fileName)}
                 handleFormFieldUpload={handleFormFieldUpload}
+                uploadedCsv={uploadedCsv}
               />
             );
           })
