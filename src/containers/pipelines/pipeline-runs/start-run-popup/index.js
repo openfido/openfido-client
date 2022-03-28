@@ -183,10 +183,24 @@ const StartRunPopup = ({
   // files are done uploading to the pipeline
   const onInputsChangedOrDropped = (e) => {
     e.preventDefault();
-    console.log(e.target.files, e.dataTransfer.files);
 
     Array.from(e.target.files || e.dataTransfer.files).forEach((file) => {
       const fileReader = new window.FileReader();
+      // added loadend event to enable autofill matching form fields with uploaded config
+      fileReader.addEventListener('loadend', (event) => {
+        if (file.name === 'config.csv') {
+          const buf = event.target.result;
+          let view = String.fromCharCode.apply(null, new Int8Array(buf)).split('\n');
+          view = view.map((item) => {
+            const temp = [];
+            const splitter = item.split(',');
+            temp.push(splitter.shift());
+            temp.push(splitter.join(',').replace('\r', ''));
+            return temp;
+          });
+          setUploadedCsv(view);
+        }
+      });
       fileReader.addEventListener('loadstart', () => {
         setIsLoading(true);
       });

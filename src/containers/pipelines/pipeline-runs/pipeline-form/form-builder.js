@@ -178,11 +178,12 @@ const FormBuilder = ({
             }}
           >
             <ReactSelect
+              placeholder="Select your choices"
               isMulti
               options={options}
               name="ReactSelect"
               isClearable
-              onChange={(e) => handleChangeSelect(e)}
+              onChange={(e) => handleChangeSelect(e, fieldId)}
             />
           </div>
           <AppDropdown overlay={menu} trigger="click">

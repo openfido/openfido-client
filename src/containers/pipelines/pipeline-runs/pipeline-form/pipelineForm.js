@@ -21,7 +21,7 @@ const PipelineFormStyled = styled.form`
 const DEFAULT_STATE = {};
 
 const PipelineForm = ({
-  config, formType, onInputFormSubmit, handleFormFieldUpload,
+  config, formType, onInputFormSubmit, handleFormFieldUpload, uploadedCsv,
 }) => {
   const [fType, setFormType] = useState(undefined);
   const [fName, setFormName] = useState(undefined);
@@ -57,8 +57,11 @@ const PipelineForm = ({
           cleanConfig[item].input_type = 'str';
         }
         cleanConfig[item].value = cleanConfig[item].default;
-        if ((cleanConfig[item].input_type === 'enum') || (cleanConfig[item].input_type === 'set')) {
+        if ((cleanConfig[item].input_type === 'enum')) {
           cleanConfig[item].value = cleanConfig[item].default.split(',')[0]; // eslint-disable-line
+        }
+        if ((cleanConfig[item].input_type === 'set')) {
+          cleanConfig[item].value = cleanConfig[item].default; // eslint-disable-line
         }
         return item;
       });
@@ -69,6 +72,21 @@ const PipelineForm = ({
       setFormBuilder(configMapable);
     }
   }, [config]);
+
+  useEffect(() => {
+    const csvData = uploadedCsv;
+    csvData.map((item) => {
+      if ((item.length > 0) && (config[item[0]] !== undefined)) {
+        dispatch({
+          type: 'HANDLE INPUT TEXT',
+          field: item[0],
+          payload: item[1],
+        });
+      }
+      return item;
+    });
+    console.log('props', uploadedCsv, Array.isArray(uploadedCsv));
+  }, [uploadedCsv]);
 
   const clickHide = () => {
     // magic button to hide/unhide form
@@ -101,8 +119,7 @@ const PipelineForm = ({
 
   // converts the data selected into a proper csv-string before updating state
   // can be modified to make arrays for json version
-  const handleChangeSelect = (data) => {
-    const { id } = data[0];
+  const handleChangeSelect = (data, id) => {
     let input = '';
     for (let i = 0; i < data.length; i += 1) {
       if (i === 0) {
