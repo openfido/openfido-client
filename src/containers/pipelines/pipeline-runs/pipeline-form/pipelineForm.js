@@ -288,6 +288,7 @@ PipelineForm.propTypes = {
   onInputFormSubmit: PropTypes.func.isRequired,
   handleFormFieldUpload: PropTypes.func.isRequired,
   formType: PropTypes.arrayOf(PropTypes.string).isRequired,
+  uploadedCsv: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default PipelineForm;
