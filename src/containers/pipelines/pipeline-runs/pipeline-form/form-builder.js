@@ -101,7 +101,7 @@ const FormBuilder = ({
       fieldType = 'text';
       requirement = '';
       break;
-    case ' optional':
+    case 'str optional':
       fieldType = 'text';
       requirement = '(optional)';
       break;
