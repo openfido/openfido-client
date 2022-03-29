@@ -5,6 +5,10 @@ import { Dropdown, Menu } from 'antd';
 import ReactSelect from 'react-select';
 import colors from 'styles/colors';
 import QmarkOutlined from 'icons/QmarkOutlined';
+import UploadBox from 'icons/UploadBox';
+import {
+  StyledButton,
+} from 'styles/app';
 
 const AppDropdown = styled(Dropdown)`
   user-select: none;
@@ -77,24 +81,27 @@ const FormBuilder = ({
   );
 
   const validInputTypes = {
-    csv: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'enum', 'set', 'title'],
-    rc: ['str', 'title'],
-    json: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'arr', 'enum', 'set', 'title'],
+    csv: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'enum', 'set', 'title', 'upload'],
+    rc: ['str', 'title', 'upload'],
+    json: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'arr', 'enum', 'set', 'title', 'upload'],
   };
 
+  // variable list to automatically (and cleanly) update field generation
   let fieldType = 'text';
   let requirement = '';
   const isValid = validInputTypes[type].includes(field.input_type);
   let isSelect = false;
   let isMultiSelect = false;
   let boolDefault = false;
+  let isUpload = false;
 
+  // updates the variables to generate a field based on the provided input type
   switch (field.input_type) {
     case 'str':
       fieldType = 'text';
       requirement = '';
       break;
-    case ' optional':
+    case 'str optional':
       fieldType = 'text';
       requirement = '(optional)';
       break;
@@ -136,15 +143,20 @@ const FormBuilder = ({
       isMultiSelect = true;
       requirement = '(choose all that apply)';
       break;
+    case 'upload':
+      isUpload = true;
+      fieldType = 'file';
+      requirement = '';
+      break;
     default:
       fieldType = 'text';
       requirement = '(invalid configuration)';
   }
 
+  // looking at merging multi select and select for cleaner/consistent implementation and styling
   if (isMultiSelect) {
-    // magic happens here
     const options = [];
-    field.default.split(',').map((choice) => options.push({
+    field.choices.split(', ').map((choice) => options.push({
       label: choice,
       value: choice,
       id: fieldId,
@@ -166,11 +178,15 @@ const FormBuilder = ({
             }}
           >
             <ReactSelect
+              placeholder="Select your choices"
+              defaultValue={
+                options.filter((option) => field.default.includes(option.label))
+             }
               isMulti
               options={options}
               name="ReactSelect"
               isClearable
-              onChange={(e) => handleChangeSelect(e)}
+              onChange={(e) => handleChangeSelect(e, fieldId)}
             />
           </div>
           <AppDropdown overlay={menu} trigger="click">
@@ -195,7 +211,7 @@ const FormBuilder = ({
           value={value.value}
           onChange={(e) => handleChange(e)}
         >
-          {field.default.split(',').map((choice) => <option value={choice} key={choice}>{choice}</option>)}
+          {field.choices.split(', ').map((choice) => <option value={choice} key={choice}>{choice}</option>)}
         </FormSelect>
         <AppDropdown overlay={menu} trigger="click">
           <QmarkOutlined />
@@ -205,6 +221,46 @@ const FormBuilder = ({
     );
   }
 
+  if (isUpload) {
+    return (
+      <>
+        <FormLabel style={{ minWidth: '10rem' }}>
+          {fieldName}
+          {requirement}
+        </FormLabel>
+        <StyledButton
+          type="text"
+          size="middle"
+          textcolor="lightBlue"
+          style={{ minWidth: '5rem' }}
+        >
+          <label htmlFor={fieldId}>
+            <UploadBox />
+          </label>
+        </StyledButton>
+        <FormInput
+          type={fieldType}
+          id={fieldId}
+          name={fieldName}
+          onChange={(e) => handleChange(e)}
+        />
+        <FormInput
+          type="text"
+          id={fieldId}
+          name={fieldName}
+          value={value.value}
+          defaultChecked={boolDefault}
+          onChange={(e) => handleChange(e)}
+        />
+        <AppDropdown overlay={menu} trigger="click">
+          <QmarkOutlined />
+        </AppDropdown>
+        <br />
+      </>
+    );
+  }
+
+  // variables are great! almost as good as comments that tell you the past variables make this run
   if (isValid) {
     if (field.input_type !== 'title') {
       return (
@@ -239,6 +295,7 @@ const FormBuilder = ({
     }
   }
 
+  // Tells the user in which input they misconfigured the manifest.
   return (
     <>
       <div>
@@ -261,6 +318,7 @@ FormBuilder.propTypes = {
       PropTypes.bool,
     ]).isRequired,
     description: PropTypes.string.isRequired,
+    choices: PropTypes.string.isRequired,
   }).isRequired,
   fieldName: PropTypes.string.isRequired,
   fieldId: PropTypes.string.isRequired,

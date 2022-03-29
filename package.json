@@ -59,8 +59,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-oauth": "node temp_server/oauth_server.js",
-    "server-dev": "nodemon temp_server/oauth_server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:integration": "jest -c tests/jest.config.js --runInBand",
