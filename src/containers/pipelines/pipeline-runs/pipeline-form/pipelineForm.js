@@ -82,7 +82,6 @@ const PipelineForm = ({
       }
       return item;
     });
-    console.log('props', uploadedCsv, Array.isArray(uploadedCsv));
   }, [uploadedCsv, config]);
 
   const clickHide = () => {
@@ -171,7 +170,6 @@ const PipelineForm = ({
     const file = new Blob([fileContent], { // eslint-disable-line
       type: datatype,
     });
-    console.log(fileContent);
     onInputFormSubmit(file, `${fName}.${fType}`);
   };
 
@@ -201,7 +199,6 @@ const PipelineForm = ({
     const file = new Blob([fileContent], { // eslint-disable-line
       type: 'application/json',
     });
-    console.log(fileContent);
     onInputFormSubmit(file, `${fName}.${fType}`);
   };
 

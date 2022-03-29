@@ -10,9 +10,9 @@ const BASE_API_URL_APP_DEVELOPMENT = 'http://localhost:6003/v1';
 const BASE_API_URL_APP_STAGING = 'https://api-staging.openfido.org/v1';
 const BASE_API_URL_APP_PRODUCTION = 'https://api.openfido.org/v1';
 
-const API_TOKEN_DEVELOPMENT = process.env.REACT_APP_API_TOKEN || 'e778c93c84184184a9a0ea8cace8b9a3';
-const API_TOKEN_STAGING = process.env.API_TOKEN || '169631ef4052427c868ad8b19171dd16';
-const API_TOKEN_PRODUCTION = process.env.API_TOKEN || '169631ef4052427c868ad8b19171dd16';
+const API_TOKEN_DEVELOPMENT = process.env.REACT_APP_API_TOKEN;
+const API_TOKEN_STAGING = process.env.API_TOKEN;
+const API_TOKEN_PRODUCTION = process.env.API_TOKEN;
 
 const parseEnvironment = () => {
   if (window.location.hostname.includes('localhost')) return ENVIRONMENT_DEVELOPMENT;
