@@ -183,8 +183,9 @@ const StartRunPopup = ({
   // files are done uploading to the pipeline
   const onInputsChangedOrDropped = (e) => {
     e.preventDefault();
+    let uploadCounter = 0;
 
-    Array.from(e.target.files || e.dataTransfer.files).forEach((file) => {
+    Array.from(e.target.files || e.dataTransfer.files).forEach((file, index, array) => {
       const fileReader = new window.FileReader();
       // added loadend event to enable autofill matching form fields with uploaded config
       fileReader.addEventListener('loadend', (event) => {
@@ -206,7 +207,12 @@ const StartRunPopup = ({
       });
       fileReader.onload = () => {
         dispatch(uploadInputFile(currentOrg, pipeline_uuid, file.name, fileReader.result))
-          .then(() => setIsLoading(false));
+          .then(() => {
+            uploadCounter += 1;
+            if (uploadCounter === array.length) {
+              setIsLoading(false);
+            }
+          });
       };
 
       fileReader.readAsArrayBuffer(file);
