@@ -346,7 +346,6 @@ const StartRunPopup = ({
             onDrop={onInputsChangedOrDropped}
             className={uploadBoxDragged ? 'dragged' : ''}
           >
-            <input type="file" id="inputs" onChange={onInputsChangedOrDropped} multiple />
             <CloudOutlined />
             <div>
               <StyledText size="large" color="darkText">
@@ -357,7 +356,8 @@ const StartRunPopup = ({
                   size="middle"
                   textcolor="lightBlue"
                 >
-                  <label htmlFor="inputs">
+                  <label>
+                    <input type="file" onChange={onInputsChangedOrDropped} multiple />
                     <strong>browse</strong>
                   </label>
                 </StyledButton>
