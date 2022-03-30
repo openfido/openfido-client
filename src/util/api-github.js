@@ -32,7 +32,6 @@ const gitApi = {
   // data from selected pipeline to pre-fill pipeline form, expecting a url string
   // accept header application/vnd.github.VERSION.raw is REQUIRED to decrypt file contents
   getManifest: async (url, branch) => {
-    console.log('in', url, branch);
     let temp = `${url}/contents/manifest.json`;
     if (branch !== undefined) {
       temp = `${temp}?ref=${branch}`;
@@ -46,7 +45,6 @@ const gitApi = {
     })
       .then((res) => res)
       .catch((err) => console.log(err));
-    console.log(response);
     return response.data;
   },
 
