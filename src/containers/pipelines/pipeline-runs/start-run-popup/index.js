@@ -150,7 +150,7 @@ export const Artifact = styled.div`
 `;
 
 const StartRunPopup = ({
-  handleOk, handleCancel, pipeline_uuid, configUrl, piplineUrl,
+  handleOk, handleCancel, pipeline_uuid, configUrl, piplineUrl, pipelineBranch,
 }) => {
   const currentOrg = useSelector((state) => state.user.currentOrg);
   const dispatch = useDispatch();
@@ -166,7 +166,7 @@ const StartRunPopup = ({
   useEffect(() => {
     // uses the passed-in URL to grab the manifest
     // Object.keys(response.manual) to determine which forms to build
-    gitApi.getManifest(configUrl)
+    gitApi.getManifest(configUrl, pipelineBranch)
       .then((response) => {
         if (response.manual === undefined) {
           console.log('Missing manual property from the manifest');
@@ -177,7 +177,7 @@ const StartRunPopup = ({
       }, (error) => {
         console.log(error);
       });
-  }, [configUrl]);
+  }, [configUrl, pipelineBranch]);
 
   // When file(s) selected from browse, or dropped on the box, disable start run until
   // files are done uploading to the pipeline
@@ -395,6 +395,7 @@ StartRunPopup.propTypes = {
   handleOk: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,
   pipeline_uuid: PropTypes.string.isRequired,
+  pipelineBranch: PropTypes.string.isRequired,
   piplineUrl: PropTypes.string.isRequired,
   configUrl: PropTypes.string.isRequired,
 };

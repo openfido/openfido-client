@@ -31,8 +31,11 @@ const gitApi = {
 
   // data from selected pipeline to pre-fill pipeline form, expecting a url string
   // accept header application/vnd.github.VERSION.raw is REQUIRED to decrypt file contents
-  getManifest: async (url) => {
-    const temp = `${url}/contents/manifest.json`;
+  getManifest: async (url, branch) => {
+    let temp = `${url}/contents/manifest.json`;
+    if (branch !== undefined) {
+      temp = `${temp}?ref=${branch}`;
+    }
     const response = await axios({
       method: 'get',
       url: temp,
