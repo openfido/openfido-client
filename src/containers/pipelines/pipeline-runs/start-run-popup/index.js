@@ -177,7 +177,7 @@ const StartRunPopup = ({
       }, (error) => {
         console.log(error);
       });
-  }, [configUrl]);
+  }, [configUrl, pipelineBranch]);
 
   // When file(s) selected from browse, or dropped on the box, disable start run until
   // files are done uploading to the pipeline
