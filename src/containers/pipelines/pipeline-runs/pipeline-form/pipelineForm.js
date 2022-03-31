@@ -59,6 +59,13 @@ const PipelineForm = ({
         if (cleanConfig[item].choices === undefined) {
           cleanConfig[item].choices = '';
         }
+        if (cleanConfig[item].input_type.includes('required')) {
+          cleanConfig[item].required = true;
+          cleanConfig[item].isValidated = true;
+        } else {
+          cleanConfig[item].required = false;
+          cleanConfig[item].isValidated = true;
+        }
         cleanConfig[item].value = cleanConfig[item].default;
         return item;
       });
@@ -131,21 +138,31 @@ const PipelineForm = ({
     });
   };
 
-  // const formValidator = (configMapable) => {
-  //   // do magic;
-  //   let passing = true;
-  //   for (let i = 0; i < configMapable.length; i += 1) {
-  //     console.log(toFile[configMapable[i]]);
-  //     if (toFile[configMapable[i]].input_type.contains('required')) {
-  //       if (toFile[configMapable[i]].value.length === 0) {
-  //         alert(`Please enter a value in the ${configMapable[i]} field`);
-  //         passing = false;
-  //         break;
-  //       }
-  //     }
-  //   }
-  //   return passing;
-  // }; if (formValidator(configMapable))
+  const formValidator = (configMapable) => {
+    // do magic;
+    let passing = true;
+    for (let i = 0; i < configMapable.length; i += 1) {
+      if (toFile[configMapable[i]].required) {
+        if (toFile[configMapable[i]].value.length === 0) {
+          dispatch({
+            type: 'HANDLE VALIDATION',
+            field: configMapable[i],
+            payload: false,
+          });
+          passing = false;
+        } else if (toFile[configMapable[i]].isValidated === false) {
+          console.log('should run');
+          dispatch({
+            type: 'HANDLE VALIDATION',
+            field: configMapable[i],
+            payload: true,
+          });
+          passing = true;
+        }
+      }
+    }
+    return passing;
+  };
 
   // combined csv and rc generation due to similarities and for easier/cleaner maintenance
   const handleUpload = (configMapable, datatype) => {
@@ -205,16 +222,18 @@ const PipelineForm = ({
   // adjusts applicable parameters based on the received form
   const handleSubmit = async () => {
     const configMapable = Object.keys(config);
-    if (configMapable === undefined) {
+    if (formValidator(configMapable)) {
+      if (configMapable === undefined) {
       alert('There was an error with the configuration file'); // eslint-disable-line
-    } else if (fType === 'csv') {
-      handleUpload(configMapable, 'text/csv');
-    } else if (fType === 'rc') {
-      handleUpload(configMapable, 'text/plain');
-    } else if (fType === 'json') {
-      convertToJson(configMapable);
+      } else if (fType === 'csv') {
+        handleUpload(configMapable, 'text/csv');
+      } else if (fType === 'rc') {
+        handleUpload(configMapable, 'text/plain');
+      } else if (fType === 'json') {
+        convertToJson(configMapable);
+      }
+      clickHide();
     }
-    clickHide();
   };
 
   // generates a form based on the length of the config file
@@ -239,13 +258,13 @@ const PipelineForm = ({
         </StyledButton>
         <div style={isHidden ? {} : { display: 'none' }}>
           {formBuilder.map((item) => {
-            const field = config[item];
+            const field = toFile[item];
             let fieldName;
             let fieldId = '';
-            if (config[item].prompt === undefined) {
+            if (toFile[item].prompt === undefined) {
               fieldName = item;
             } else {
-              fieldName = config[item].prompt;
+              fieldName = toFile[item].prompt;
             }
             if (typeof (item) === 'string') {
               fieldId = item;

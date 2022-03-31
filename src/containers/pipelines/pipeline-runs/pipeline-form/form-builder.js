@@ -88,7 +88,6 @@ const FormBuilder = ({
 
   // variable list to automatically (and cleanly) update field generation
   let fieldType = 'text';
-  let requirement = '';
   const isValid = validInputTypes[type].includes(field.input_type);
   let isSelect = false;
   let isMultiSelect = false;
@@ -99,58 +98,45 @@ const FormBuilder = ({
   switch (field.input_type) {
     case 'str':
       fieldType = 'text';
-      requirement = '';
       break;
     case 'str optional':
       fieldType = 'text';
-      requirement = '(optional)';
       break;
     case 'str required':
       fieldType = 'text';
-      requirement = '(required)';
       break;
     case 'float':
       fieldType = 'number';
-      requirement = '';
       break;
     case 'int':
       fieldType = 'number';
-      requirement = '';
       break;
     case 'int optional':
       fieldType = 'number';
-      requirement = '(optional)';
       break;
     case 'int required':
       fieldType = 'number';
-      requirement = '(required)';
       break;
     case 'boolean':
       fieldType = 'checkbox';
-      requirement = '(enable/disable)';
       boolDefault = (value.value === 'true');
       break;
     case 'arr':
       fieldType = 'text';
-      requirement = '';
       break;
     case 'enum':
       isSelect = true;
-      requirement = '(choose one)';
       break;
     case 'set':
       isSelect = true;
       isMultiSelect = true;
-      requirement = '(choose all that apply)';
       break;
     case 'upload':
       isUpload = true;
       fieldType = 'file';
-      requirement = '';
       break;
     default:
       fieldType = 'text';
-      requirement = '(invalid configuration)';
   }
 
   // looking at merging multi select and select for cleaner/consistent implementation and styling
@@ -165,7 +151,6 @@ const FormBuilder = ({
       <>
         <FormLabel>
           {fieldName}
-          {requirement}
         </FormLabel>
         <div style={{
           display: 'flex',
@@ -203,7 +188,6 @@ const FormBuilder = ({
       <>
         <FormLabel>
           {fieldName}
-          {requirement}
         </FormLabel>
         <FormSelect
           id={fieldId}
@@ -226,7 +210,6 @@ const FormBuilder = ({
       <>
         <FormLabel style={{ minWidth: '10rem' }}>
           {fieldName}
-          {requirement}
         </FormLabel>
         <StyledButton
           type="text"
@@ -265,9 +248,8 @@ const FormBuilder = ({
     if (field.input_type !== 'title') {
       return (
         <>
-          <FormLabel>
+          <FormLabel style={{ color: field.isValidated ? 'black' : 'pink' }}>
             {fieldName}
-            {requirement}
           </FormLabel>
           <FormInput
             type={fieldType}
@@ -319,6 +301,7 @@ FormBuilder.propTypes = {
     ]).isRequired,
     description: PropTypes.string.isRequired,
     choices: PropTypes.string.isRequired,
+    isValidated: PropTypes.bool.isRequired,
   }).isRequired,
   fieldName: PropTypes.string.isRequired,
   fieldId: PropTypes.string.isRequired,
