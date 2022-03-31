@@ -151,7 +151,6 @@ const PipelineForm = ({
           });
           passing = false;
         } else if (toFile[configMapable[i]].isValidated === false) {
-          console.log('should run');
           dispatch({
             type: 'HANDLE VALIDATION',
             field: configMapable[i],
