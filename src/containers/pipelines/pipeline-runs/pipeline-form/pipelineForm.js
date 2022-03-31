@@ -288,11 +288,7 @@ const PipelineForm = ({
     );
   }
   return (
-    <div>
-      The system could not detect a manifest.json file with a &quot;config&quot; property.
-      <br />
-      Please create the required file in the pipeline&apos;s repository or proceed with manual upload.
-    </div>
+    <div />
   );
 };
 
