@@ -81,9 +81,9 @@ const FormBuilder = ({
   );
 
   const validInputTypes = {
-    csv: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'enum', 'set', 'title', 'upload'],
-    rc: ['str', 'title', 'upload'],
-    json: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'arr', 'enum', 'set', 'title', 'upload'],
+    csv: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'enum', 'set', 'title', 'upload', 'upload required'],
+    rc: ['str', 'title', 'upload', 'upload required'],
+    json: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'arr', 'enum', 'set', 'title', 'upload', 'upload required'],
   };
 
   // variable list to automatically (and cleanly) update field generation
@@ -132,6 +132,10 @@ const FormBuilder = ({
       isMultiSelect = true;
       break;
     case 'upload':
+      isUpload = true;
+      fieldType = 'file';
+      break;
+    case 'upload required':
       isUpload = true;
       fieldType = 'file';
       break;
@@ -208,7 +212,11 @@ const FormBuilder = ({
   if (isUpload) {
     return (
       <>
-        <FormLabel style={{ minWidth: '10rem' }}>
+        <FormLabel style={{
+          minWidth: '10rem',
+          color: field.isValidated ? 'black' : 'pink',
+        }}
+        >
           {fieldName}
         </FormLabel>
         <StyledButton

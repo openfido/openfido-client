@@ -102,7 +102,7 @@ const PipelineForm = ({
     if (config[e.target.id].input_type === 'boolean') {
       update = `${e.target.checked}`;
     }
-    if (config[e.target.id].input_type === 'upload') {
+    if ((config[e.target.id].input_type === 'upload') || (config[e.target.id].input_type === 'upload required')) {
       if (e.target.files) {
         const [file] = e.target.files;
         update = file.name;
