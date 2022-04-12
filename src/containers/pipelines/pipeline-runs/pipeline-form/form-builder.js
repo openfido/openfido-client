@@ -57,9 +57,9 @@ const AppDropdownMenuItem = styled(Menu.Item)`
 `;
 
 const UploadZone = styled.div`
-&:hover {
-  background-color: green;
-}
+  &.dragged {
+    background-color: ${colors.lightBlue};
+  }
 `;
 
 const FormLabel = styled.label`
@@ -72,6 +72,12 @@ const FormSelect = styled.select`
 
 const FormInput = styled.input`
   min-width: 10rem;
+  &.dragged {
+    background-color: #e0ffff;
+  }
+  &.overMax {
+    background-color: #f0e68c;
+  }
 `;
 
 const FormBuilder = ({
@@ -152,7 +158,6 @@ const FormBuilder = ({
 
   const onUploadZoneDragOverOrEnter = (e) => {
     e.preventDefault();
-
     if (!uploadZoneDragged) setUploadZoneDragged(true);
   };
 
@@ -227,14 +232,17 @@ const FormBuilder = ({
   }
 
   if (isUpload) {
+    const overMax = field.isOverMax ? 'overMax' : '';
     return (
       <>
         <UploadZone
           onDragOver={onUploadZoneDragOverOrEnter}
           onDragEnter={onUploadZoneDragOverOrEnter}
           onDragLeave={onUploadZoneDragLeave}
-          onDrop={(e) => handleDrop(e, fieldId, field.space_delimited, field.upload_max)}
-          className={uploadZoneDragged ? 'dragged' : ''}
+          onDrop={(e) => {
+            onUploadZoneDragLeave();
+            return handleDrop(e, fieldId, field.space_delimited, field.upload_max);
+          }}
         >
           <FormLabel style={{
             minWidth: '10rem',
@@ -266,6 +274,7 @@ const FormBuilder = ({
             value={value.value}
             defaultChecked={boolDefault}
             onChange={(e) => handleChange(e)}
+            className={uploadZoneDragged ? 'dragged' : overMax}
           />
           <AppDropdown overlay={menu} trigger="click">
             <QmarkOutlined />
@@ -335,6 +344,7 @@ FormBuilder.propTypes = {
     choices: PropTypes.string.isRequired,
     isValidated: PropTypes.bool.isRequired,
     space_delimited: PropTypes.bool.isRequired,
+    isOverMax: PropTypes.bool.isRequired,
     upload_max: PropTypes.number.isRequired,
   }).isRequired,
   fieldName: PropTypes.string.isRequired,

@@ -73,6 +73,7 @@ const PipelineForm = ({
           cleanConfig[item].isValidated = true;
         }
         cleanConfig[item].value = cleanConfig[item].default;
+        cleanConfig[item].isOverMax = false;
         return item;
       });
       dispatch({
@@ -137,6 +138,19 @@ const PipelineForm = ({
     let update = '';
     const files = Array.from(e.target.files || e.dataTransfer.files);
     if (max) {
+      if (files.length > max) {
+        dispatch({
+          type: 'DROPPED OVER MAXIMUM ALLOWED',
+          field: id,
+          payload: true,
+        });
+      } else {
+        dispatch({
+          type: 'DROPPED OVER MAXIMUM ALLOWED',
+          field: id,
+          payload: false,
+        });
+      }
       if (max === 1) {
         update = files[0].name;
       } else {
