@@ -97,12 +97,23 @@ const ConsoleOutput = () => {
     }
   }, [currentOrg, pipelineInView, pipelineRunSelectedUuid, currentPipelineRunUuid, currentPipelineRun, dispatch]);
 
+  // Refreshes console output after the time set in interval
   useEffect(() => {
     const interval = pipelineRunSelectedUuid && !getConsoleOutputInProgress && setInterval(() => {
+      console.log('5 sec');
       dispatch(getPipelineRunConsoleOutput(currentOrg, pipelineInView, pipelineRunSelectedUuid, true));
     }, POLL_CONSOLE_OUTPUT_INTERVAL);
     return () => clearInterval(interval);
   }, [currentOrg, pipelineInView, pipelineRunSelectedUuid, getConsoleOutputInProgress, dispatch]);
+
+  // run once version of above useEffect to quickly refresh console data when switching between runs
+  useEffect(() => {
+    const updateOnce = pipelineRunSelectedUuid && !getConsoleOutputInProgress && setTimeout(() => {
+      console.log('here!');
+      dispatch(getPipelineRunConsoleOutput(currentOrg, pipelineInView, pipelineRunSelectedUuid, true));
+    }, 500);
+    return () => clearTimeout(updateOnce);
+  }, [pipelineRunSelectedUuid]);
 
   useEffect(() => {
     if (!getConsoleOutputInProgress && consoleOutput && !consoleOutput[outputType]) {
