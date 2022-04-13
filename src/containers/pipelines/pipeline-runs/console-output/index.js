@@ -113,7 +113,7 @@ const ConsoleOutput = () => {
       dispatch(getPipelineRunConsoleOutput(currentOrg, pipelineInView, pipelineRunSelectedUuid, true));
     }, 500);
     return () => clearTimeout(updateOnce);
-  }, [pipelineRunSelectedUuid]);
+  }, [currentOrg, pipelineInView, pipelineRunSelectedUuid, getConsoleOutputInProgress, dispatch]);
 
   useEffect(() => {
     if (!getConsoleOutputInProgress && consoleOutput && !consoleOutput[outputType]) {
