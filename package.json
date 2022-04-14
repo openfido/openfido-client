@@ -60,8 +60,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:integration": "jest -c tests/jest.config.js --runInBand",
+    "test": "react-scripts test --env=puppeteer",
+    "test:integration": "jest -c tests_integration/jest.config.js --runInBand",
     "eject": "react-scripts eject",
     "lint": "eslint 'src/**/*.js'"
   },
