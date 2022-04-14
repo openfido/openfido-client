@@ -1,4 +1,4 @@
-const pipelineTest = () => {
+module.exports = () => {
 describe('app', () => {
   beforeAll(async () => {
     await page.setViewport({ width: 1024, height: 768 });
@@ -22,6 +22,8 @@ describe('app', () => {
 
   it('create pipeline Test Pipeline', async () => {
     await page.click('a[aria-label="Pipelines menu link"]');
+
+    await page.waitForTimeout(1000);
 
     await page.click('button[aria-label="Add Pipeline button"]', 'admin@example.com', { delay: 100 });
 
@@ -75,5 +77,3 @@ describe('app', () => {
   });
 });
 }
-
-export default pipelineTest;

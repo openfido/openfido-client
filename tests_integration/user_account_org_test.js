@@ -1,4 +1,4 @@
-const accountTest = () => {
+module.exports = () => {
 describe('app', () => {
   beforeAll(async () => {
     await page.setViewport({ width: 1024, height: 768 });
@@ -89,5 +89,3 @@ describe('app', () => {
   });
 });
 }
-
-export default accountTest;

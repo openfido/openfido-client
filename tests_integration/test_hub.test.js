@@ -1,6 +1,6 @@
-import accountTest from "./user_account_org.test";
-import pipelineTest from "./pipelines.test";
-import testCleanup from "./test_cleanup.test";
+const accountTest = require("./user_account_org_test");
+const pipelineTest = require("./pipelines_test");
+const testCleanup = require("./test_cleanup");
 
 // Centralize and order puppeteer tests to ensure they run in proper order
 accountTest();
