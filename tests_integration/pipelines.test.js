@@ -1,3 +1,4 @@
+const pipelineTest = () => {
 describe('app', () => {
   beforeAll(async () => {
     await page.setViewport({ width: 1024, height: 768 });
@@ -73,3 +74,6 @@ describe('app', () => {
     await page.click('a[aria-label="Log Out link"]');
   });
 });
+}
+
+export default pipelineTest;
