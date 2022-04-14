@@ -8,6 +8,7 @@ describe('app', () => {
   });
 
   it('login admin@example.com', async () => {
+    await page.waitForSelector('input[aria-label="Email sign in input"]', {visible: true, timeout: 30000 });
     await page.type('input[aria-label="Email sign in input"]', 'admin@example.com', { delay: 100 });
     await page.type('input[aria-label="Password sign in input"]', '1234567890', { delay: 100 });
     await page.keyboard.press('Enter');
@@ -41,6 +42,7 @@ describe('app', () => {
 
     await expect(page).toMatchElement('span[aria-label="Pipeline Item name"]', {
       text: 'Test Pipeline',
+      timeout: 1000,
     });
   });
 
