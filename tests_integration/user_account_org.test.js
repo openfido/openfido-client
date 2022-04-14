@@ -1,7 +1,7 @@
 describe('app', () => {
   beforeAll(async () => {
     await page.setViewport({ width: 1024, height: 768 });
-  })
+  });
 
   beforeEach(async () => {
     await page.goto('http://localhost:3001');
@@ -83,6 +83,7 @@ describe('app', () => {
 
   it('logout admin@example.com', async () => {
     await page.click('div[aria-label="App dropdown"]');
+    await page.waitForTimeout(1000);
     await page.click('a[aria-label="Log Out link"]');
   });
 });
