@@ -52,5 +52,11 @@ module.exports = () => {
             await page.waitForTimeout(1000);
 
           });
+
+          it('logout admin@example.com', async () => {
+            await page.click('div[aria-label="App dropdown"]');
+            await page.waitForTimeout(1000);
+            await page.click('a[aria-label="Log Out link"]');
+          });
     });
 }

@@ -6,3 +6,5 @@ const testCleanup = require("./test_cleanup");
 // accountTest();
 // pipelineTest();
 testCleanup();
+testCleanup();
+testCleanup();
