@@ -20,7 +20,7 @@ module.exports = () => {
             text: 'Pipelines',
           });
         });
-/*
+
         it('removes Test Organization', async () => {
             await page.click('a[aria-label="Settings menu link"]');
             await page.waitForTimeout(1000);
@@ -51,7 +51,7 @@ module.exports = () => {
             await page.waitForTimeout(1000);
 
           });
-*/
+
           it('removes Test Pipeline', async () => {
             await page.click('a[aria-label="Pipelines menu link"]');
             await page.waitForTimeout(3000);
