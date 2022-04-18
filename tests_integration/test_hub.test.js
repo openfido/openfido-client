@@ -3,8 +3,6 @@ const pipelineTest = require("./pipelines_test");
 const testCleanup = require("./test_cleanup");
 
 // Centralize and order puppeteer tests to ensure they run in proper order
-// accountTest();
-// pipelineTest();
-testCleanup();
-testCleanup();
+accountTest();
+pipelineTest();
 testCleanup();

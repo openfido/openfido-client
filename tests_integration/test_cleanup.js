@@ -20,7 +20,7 @@ module.exports = () => {
             text: 'Pipelines',
           });
         });
-
+/*
         it('removes Test Organization', async () => {
             await page.click('a[aria-label="Settings menu link"]');
             await page.waitForTimeout(1000);
@@ -28,7 +28,6 @@ module.exports = () => {
             await page.click('li[aria-label="Edit Organization settings item"]');
             await page.waitForTimeout(1000);
         
-            // click on add organization
             let elem = await page.$x('//label[contains(., "Test Organization")]');
             await page.waitForTimeout(1000);
 
@@ -43,6 +42,31 @@ module.exports = () => {
             await page.waitForTimeout(1000);
 
             await page.type('.ant-modal-body .ant-input', 'Test Organization', { delay: 100 });
+            await page.waitForTimeout(1000);
+
+            await page.click('.ant-modal-body .delete');
+            await page.waitForTimeout(1000);
+
+            await page.click('.ant-modal-body .ant-btn');
+            await page.waitForTimeout(1000);
+
+          });
+*/
+          it('removes Test Pipeline', async () => {
+            await page.click('a[aria-label="Pipelines menu link"]');
+            await page.waitForTimeout(3000);
+        
+            await page.click('span[aria-label="Test Pipeline Edit button"]');
+            await page.waitForTimeout(1000);
+
+            await page.click('.anticon-delete-outlined');
+            await page.waitForTimeout(1000);
+
+            await page.waitForSelector('div[class="ant-modal-content"]');
+            await page.click('.ant-modal .ant-space-item .ant-btn-text');
+            await page.waitForTimeout(1000);
+
+            await page.type('.ant-modal .ant-input', 'Test Pipeline', { delay: 100 });
             await page.waitForTimeout(1000);
 
             await page.click('.ant-modal-body .delete');
