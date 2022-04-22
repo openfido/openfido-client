@@ -134,56 +134,70 @@ const PipelineForm = ({
     });
   };
 
+  const helperMax = (e, space, max, files, id) => {
+    let fieldVal = '';
+    if (files.length > max) {
+      dispatch({
+        type: 'DROPPED OVER MAXIMUM ALLOWED',
+        field: id,
+        payload: true,
+      });
+    } else {
+      dispatch({
+        type: 'DROPPED OVER MAXIMUM ALLOWED',
+        field: id,
+        payload: false,
+      });
+    }
+    if (max === 1) {
+      fieldVal = files[0].name;
+    } else if (files.length < max) {
+      for (let i = 0; i < files.length; i += 1) {
+        if (i === (files.length - 1)) {
+          fieldVal += files[i].name;
+        } else if (space) {
+          fieldVal += `${files[i].name} `;
+        } else {
+          fieldVal += `${files[i].name}, `;
+        }
+      }
+    } else {
+      for (let i = 0; i < max; i += 1) {
+        if (i === (max - 1)) {
+          fieldVal += files[i].name;
+        } else if (space) {
+          fieldVal += `${files[i].name} `;
+        } else {
+          fieldVal += `${files[i].name}, `;
+        }
+      }
+    }
+    handleFormFieldUpload(e, max);
+    return fieldVal;
+  }
+
+  const helperUnlimited = (e, space, files) => {
+    let fieldVal = '';
+    onInputsChangedOrDropped(e);
+    for (let i = 0; i < files.length; i += 1) {
+      if (i === (files.length - 1)) {
+        fieldVal += files[i].name;
+      } else if (space) {
+        fieldVal += `${files[i].name} `;
+      } else {
+        fieldVal += `${files[i].name}, `;
+      }
+    }
+  return fieldVal;
+}
+
   const handleDrop = (e, id, space, max) => {
     let update = '';
     const files = Array.from(e.target.files || e.dataTransfer.files);
     if (max) {
-      if (files.length > max) {
-        dispatch({
-          type: 'DROPPED OVER MAXIMUM ALLOWED',
-          field: id,
-          payload: true,
-        });
-      } else {
-        dispatch({
-          type: 'DROPPED OVER MAXIMUM ALLOWED',
-          field: id,
-          payload: false,
-        });
-      }
-      if (max === 1) {
-        update = files[0].name;
-      } else if (files.length < max) {
-        for (let i = 0; i < files.length; i += 1) {
-          if (i === (files.length - 1)) {
-            update += files[i].name;
-          } else if (space) {
-            update += `${files[i].name} `;
-          } else {
-            update += `${files[i].name}, `;
-          }
-        }
-      } else {
-        for (let i = 0; i < max; i += 1) {
-          if (i === (max - 1)) {
-            update += files[i].name;
-          } else if (space) {
-            update += `${files[i].name} `;
-          } else {
-            update += `${files[i].name}, `;
-          }
-        }
-      }
-      handleFormFieldUpload(e, max);
+      update = helperMax(e, space, max, files, id);
     } else {
-      onInputsChangedOrDropped(e);
-      for (let i = 0; i < files.length; i += 1) {
-        if (space) {
-          update += `${files[i].name} `;
-        } else {
-          update += `${files[i].name}, `;
-        }
-      }
+      update = helperUnlimited(e, space, files);
     }
     dispatch({
       type: 'HANDLE INPUT TEXT',

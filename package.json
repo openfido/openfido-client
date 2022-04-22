@@ -67,11 +67,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "airbnb",
-      "plugin:jest/recommended"
-    ],
-    "plugins": [
-      "jest"
+      "airbnb"
     ],
     "globals": {
       "window": true
