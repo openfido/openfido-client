@@ -174,7 +174,7 @@ const PipelineForm = ({
     }
     handleFormFieldUpload(e, max);
     return fieldVal;
-  }
+  };
 
   const helperUnlimited = (e, space, files) => {
     let fieldVal = '';
@@ -188,8 +188,8 @@ const PipelineForm = ({
         fieldVal += `${files[i].name}, `;
       }
     }
-  return fieldVal;
-}
+    return fieldVal;
+  };
 
   const handleDrop = (e, id, space, max) => {
     let update = '';
