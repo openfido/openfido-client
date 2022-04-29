@@ -172,7 +172,12 @@ const EditPipeline = ({ handleSuccess, handleCancel, pipelineItem }) => {
       <EditPipelineForm onSubmit={onEditPipelineClicked}>
         <StyledH3 color="black">
           Edit Pipeline
-          <StyledButton type="text" size="small" onClick={openDeletePopup} width={108}>
+          <StyledButton 
+          type="text" 
+          size="small" 
+          onClick={openDeletePopup} 
+          width={108}
+          >
             Delete Pipeline
             <DeleteOutlined color="gray20" onClick={openDeletePopup} />
           </StyledButton>

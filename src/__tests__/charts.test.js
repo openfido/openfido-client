@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { parseCsvData } from './charts';
+import { parseCsvData } from '../util/charts';
 
 const CSV_FILE = `timestamp,generation_kW,total_load_kW,flexible_load_kW,unserved_energy_%,storage_power_kW,storage_energy_kWh,category
 2020-10-15T00:00:00-04:00,0.0,0.0,604.921,0.0,217.23899999999998,3000.0,category

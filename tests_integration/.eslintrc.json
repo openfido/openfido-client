@@ -1,0 +1,33 @@
+{
+    "extends": [
+        "airbnb"
+      ],
+      "globals": {
+        "window": true
+      },
+    "env": {
+      "es6": true,
+      "browser": true,
+      "es2021": true,
+      "node": true,
+      "jest": true
+    },
+    "plugins": [
+      "jest"
+    ],
+    "rules": {
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "jest/no-identical-title": "error",
+      "jest/prefer-to-have-length": "warn",
+      "jest/valid-expect": "error"
+    },
+    "camelcase": 1,
+    "max-len": 1,
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "assert": "either"
+      }
+    ]
+  }

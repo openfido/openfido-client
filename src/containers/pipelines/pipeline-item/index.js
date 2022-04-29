@@ -95,7 +95,10 @@ const PipelineItem = ({
         </StyledButton>
       </ViewRunsColumn>
       <EditColumn>
-        <EditOutlined onClick={() => openPipelineEdit(uuid)} />
+        <EditOutlined
+        ariaLabel={`${name} Edit button`} 
+        onClick={() => openPipelineEdit(uuid)} 
+        />
       </EditColumn>
     </PipelineItemGrid>
   );

@@ -1,3 +1,4 @@
+module.exports = () => {
 describe('app', () => {
   beforeAll(async () => {
     await page.setViewport({ width: 1024, height: 768 });
@@ -22,6 +23,8 @@ describe('app', () => {
   it('create pipeline Test Pipeline', async () => {
     await page.click('a[aria-label="Pipelines menu link"]');
 
+    await page.waitForTimeout(1000);
+
     await page.click('button[aria-label="Add Pipeline button"]', 'admin@example.com', { delay: 100 });
 
     await page.type('input[aria-label="Pipeline Name input"]', 'Test Pipeline', { delay: 100 });
@@ -41,6 +44,7 @@ describe('app', () => {
 
     await expect(page).toMatchElement('span[aria-label="Pipeline Item name"]', {
       text: 'Test Pipeline',
+      timeout: 10000,
     });
   });
 
@@ -51,7 +55,11 @@ describe('app', () => {
 
     await page.click('button[aria-label="Test Pipeline View Runs button"]');
 
+    await page.waitForTimeout(1000);
+
     await page.click('button[aria-label="Start a run button"]');
+
+    await page.waitForTimeout(1000);
 
     await page.click('button[aria-label="Start Run button"]');
 
@@ -64,6 +72,8 @@ describe('app', () => {
 
   it('logout admin@example.com', async () => {
     await page.click('div[aria-label="App dropdown"]');
+    await page.waitForTimeout(1000);
     await page.click('a[aria-label="Log Out link"]');
   });
 });
+}
