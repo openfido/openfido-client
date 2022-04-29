@@ -95,7 +95,7 @@ const FormBuilder = ({
 
   const validInputTypes = {
     csv: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'enum', 'set', 'title', 'upload', 'upload required'],
-    rc: ['str', 'title', 'upload', 'upload required'],
+    rc: ['str', 'str required', 'title', 'upload', 'upload required'],
     json: ['str', 'str optional', 'str required', 'float', 'int', 'int optional', 'int required', 'boolean', 'arr', 'enum', 'set', 'title', 'upload', 'upload required'],
   };
 
@@ -233,6 +233,7 @@ const FormBuilder = ({
 
   if (isUpload) {
     const overMax = field.isOverMax ? 'overMax' : '';
+    const multi = field.upload_max === 0 || field.upload_max > 1;
     return (
       <>
         <UploadZone
@@ -266,6 +267,7 @@ const FormBuilder = ({
             id={fieldId}
             name={fieldName}
             onChange={(e) => handleDrop(e, fieldId, field.space_delimited, field.upload_max)}
+            multiple={multi}
           />
           <FormInput
             type="text"
