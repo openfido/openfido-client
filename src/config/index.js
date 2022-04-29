@@ -12,7 +12,7 @@ const BASE_API_URL_APP_PRODUCTION = 'https://api.openfido.org/v1';
 
 const API_TOKEN_DEVELOPMENT = process.env.REACT_APP_API_TOKEN;
 const API_TOKEN_STAGING = process.env.API_TOKEN || '1ad2a5f2e82d402f81a7781721a92e67' ;
-const API_TOKEN_PRODUCTION = process.env.API_TOKEN || '250b7248ca9b4986825714f4d344f9a4';
+const API_TOKEN_PRODUCTION = process.env.API_TOKEN || '913fd510690d4150a16154d2bf5c588f';
 
 const parseEnvironment = () => {
   if (window.location.hostname.includes('localhost')) return ENVIRONMENT_DEVELOPMENT;
