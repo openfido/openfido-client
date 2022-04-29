@@ -157,7 +157,7 @@ const DeletePipelinePopup = ({
             </StyledH2>
             <StyledForm onSubmit={onPermanentlyDeleteClicked}>
               <StyledInput value={deleteName} onChange={onDeleteNameChanged} />
-              <ConfirmBox onClick={() => setConfirmDelete(!confirmDelete)}>
+              <ConfirmBox className='delete' onClick={() => setConfirmDelete(!confirmDelete)}>
                 <ConfirmCheck>
                   {confirmDelete ? <CheckFilled /> : <CheckOutlined />}
                   <StyledText size="small" color="pink">{confirmDelete ? 'confirmed' : 'confirm'}</StyledText>

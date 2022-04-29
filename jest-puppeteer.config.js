@@ -1,6 +1,6 @@
 module.exports = {
   server: {
-    command: 'PORT=3001 npm start',
+    command: 'cross-env PORT=3001 npm run start',
     port: 3001,
     launchTimeout: 120000,
     waitOnScheme: {
