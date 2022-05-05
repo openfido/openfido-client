@@ -68,10 +68,10 @@ jobs:
               path: /tmp/workspace
 
           - name: Deploy to S3
-              run: aws s3 sync /tmp/workspace/build/ s3://${{ secrets.STAGE_S3_URL }}
+            run: aws s3 sync /tmp/workspace/build/ s3://${{ secrets.STAGE_S3_URL }}
 
           - name: Run CF invalidation
-              run: aws cloudfront create-invalidation --distribution-id ${{ secrets.STAGE_CF_ID }} --paths '/*'
+            run: aws cloudfront create-invalidation --distribution-id ${{ secrets.STAGE_CF_ID }} --paths '/*'
 # Necessary action when needing to use AWS credentials.
 #          - name: Configure AWS Credentials
 #            uses: aws-actions/configure-aws-credentials@v1
