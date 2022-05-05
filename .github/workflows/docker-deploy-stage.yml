@@ -47,8 +47,7 @@ jobs:
             with:
               name: build-client
               path: /tmp/workspace
-# Needs to update everything below here
-# Needs to setup an actions environment
+
     deploy-staging:
         needs: build
         runs-on: ubuntu-latest
@@ -72,10 +71,3 @@ jobs:
 
           - name: Run CF invalidation
             run: aws cloudfront create-invalidation --distribution-id ${{ secrets.STAGE_CF_ID }} --paths '/*'
-# Necessary action when needing to use AWS credentials.
-#          - name: Configure AWS Credentials
-#            uses: aws-actions/configure-aws-credentials@v1
-#            with:
-#              aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#              aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#              aws-region: us-west-1
