@@ -3,7 +3,6 @@ on: [push]
 jobs:
     test-build:
         runs-on: ubuntu-latest
-        environment: test
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v3

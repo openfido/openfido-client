@@ -1,12 +1,12 @@
-name: Deploy Main
+name: Deploy Staging
 on: 
   push:
     branches:
       - master
 jobs:
-    test-build:
+    build:
         runs-on: ubuntu-latest
-        environment: test
+        environment: staging
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v3
@@ -49,36 +49,29 @@ jobs:
               path: /tmp/workspace
 # Needs to update everything below here
 # Needs to setup an actions environment
-  deploy:
-    docker:
-      - image: cimg/base:stable
-    parameters:
-      access-key:
-        type: env_var_name
-        default: STAGE_ACCESS_KEY_ID
-      secret-key:
-        type: env_var_name
-        default: STAGE_SECRET_ACCESS_KEY
-      s3-bucket:
-        type: string
-        default: $STAGE_S3_URL
-      cf-id:
-        type: string
-        default: $STAGE_CF_ID
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - aws-cli/setup:
-          aws-access-key-id: << parameters.access-key >>
-          aws-secret-access-key: << parameters.secret-key >>
-          aws-region: AWS_REGION
-          version: "2"
-      - run:
-          name: Deploy to S3
-          command: aws s3 sync /tmp/workspace/build/ s3://<< parameters.s3-bucket >>
-      - run:
-          name: Run CF invalidation
-          command: aws cloudfront create-invalidation --distribution-id << parameters.cf-id >> --paths '/*'
+    deploy-staging:
+        needs: build
+        runs-on: ubuntu-latest
+        environment: staging
+        steps:
+          - name: Configure AWS Credentials
+            uses: aws-actions/configure-aws-credentials@v1
+            with:
+              aws-access-key-id: ${{ secrets.STAGE_ACCESS_KEY_ID }}
+              aws-secret-access-key: ${{ secrets.STAGE_SECRET_ACCESS_KEY }}
+              aws-region: ${{ secrets.AWS_REGION }}
+
+          - name: Retrieve saved Build
+            uses: actions/download-artifact@v2
+            with:
+              name: build-client
+              path: /tmp/workspace
+
+          - name: Deploy to S3
+              run: aws s3 sync /tmp/workspace/build/ s3://${{ secrets.STAGE_S3_URL }}
+
+          - name: Run CF invalidation
+              run: aws cloudfront create-invalidation --distribution-id ${{ secrets.STAGE_CF_ID }} --paths '/*'
 # Necessary action when needing to use AWS credentials.
 #          - name: Configure AWS Credentials
 #            uses: aws-actions/configure-aws-credentials@v1
