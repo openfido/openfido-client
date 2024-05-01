@@ -13,7 +13,7 @@ jobs:
           - name: Install Node
             uses: actions/setup-node@v3
             with:
-              node-version: '20.0.0'
+              node-version: '16.11.1'
 
             # Cache action set to cache npm installed modules when package-lock or OS changes, otherwise will restore the cache
           - name: Cache node modules
