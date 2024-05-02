@@ -34,6 +34,7 @@ const gitApi = {
   // accept header application/vnd.github.VERSION.raw is REQUIRED to decrypt file contents
   getManifest: async (url, branch) => {
     let temp = `${url}/contents/manifest.json`;
+    console.log("mani", temp, url, branch)
     if (branch !== undefined) {
       temp = `${temp}?ref=${branch}`;
     }
