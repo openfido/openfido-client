@@ -24,7 +24,6 @@ const AddPipelineForm = styled.form`
 `;
 
 const AddPipeline = ({ handleSuccess, handleCancel }) => {
-  console.log("AddPipeline", handleSuccess, handleCancel)
   const [fields, setFields] = useState({
     name: '',
     description: '',
@@ -41,7 +40,6 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
   const currentOrg = useSelector((state) => state.user.currentOrg);
 
   useEffect(() => {
-    console.log("useEffect triggered", formSubmitted, errors, currentOrg, fields, handleSuccess, loading);
     if (formSubmitted && !errors.length && !loading) {
       setLoading(true);
       setFormSubmitted(false);
@@ -60,14 +58,12 @@ const AddPipeline = ({ handleSuccess, handleCancel }) => {
 
   const updateFromDropdown = (e) => {
     // pass into dropdown to send data back and fill
-    console.log("updateFromDropdown input", e);
     const url = {
       url: e.target.dataset.url,
       name: e.target.dataset.fullname,
       description: e.target.dataset.description,
     };
     const name = url.name.charAt(0).toUpperCase() + url.name.slice(1);
-    console.log("updateFromDropdown", name);
     gitApi.getManifest(url.url)
       .then((response) => {
         setLoadManifest('none');

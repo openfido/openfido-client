@@ -77,12 +77,11 @@ const PipelineDropdown = (updateFromDropdown) => {
   useEffect(() => {
     gitApi.getPotentialPipelines()
       .then((response) => {
-        console.log('response', response);
         if (response !== 'undefined') {
           setPipelines(response);
         }
       }, (error) => {
-        console.log("why", error);
+        console.log("Error Retrieving Pipelines:", error);
       });
   }, [updateFromDropdown]);
 
