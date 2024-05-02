@@ -27,6 +27,9 @@ const gitApi = {
       reducedData.description = repo.description;
       return reducedData;
     });
+    console.log("response", response)
+    console.log("data", data)
+    console.log("cleanData", cleanData)
     return cleanData;
   },
 
@@ -48,6 +51,7 @@ const gitApi = {
     })
       .then((res) => res)
       .catch((err) => console.log(err));
+    console.log("mani", response)
     return response.data;
   },
 
