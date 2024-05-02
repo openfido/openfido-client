@@ -11,6 +11,7 @@ const gitApi = {
 
   // list for dropdown of all repositories that can generate a pipeline, cleaned of excess data
   getPotentialPipelines: async () => {
+    console.log(potentialPipelines)
     const response = await axios({
       method: 'get',
       url: potentialPipelines,
