@@ -81,9 +81,9 @@ const PipelineDropdown = (updateFromDropdown) => {
           setPipelines(response);
         }
       }, (error) => {
-        console.log(error);
+        console.log("Error Retrieving Pipelines:", error);
       });
-  }, []);
+  }, [updateFromDropdown]);
 
   const menu = (
     <AppDropdownMenu>

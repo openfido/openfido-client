@@ -175,7 +175,7 @@ const StartRunPopup = ({
           setManual(Object.keys(response.manual));
         }
       }, (error) => {
-        console.log(error);
+        console.log('Failed to retrieve manifest:', error);
       });
   }, [configUrl, pipelineBranch]);
 
