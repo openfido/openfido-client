@@ -18,7 +18,9 @@ const gitApi = {
     })
       .then((res) => res)
       .catch((err) => console.log(err));
+    console.log("response", response)
     const data = response.data.items;
+    console.log("data", data)
     const cleanData = data.map((repo) => {
       const reducedData = {};
       reducedData.full_name = repo.name;
@@ -27,8 +29,6 @@ const gitApi = {
       reducedData.description = repo.description;
       return reducedData;
     });
-    console.log("response", response)
-    console.log("data", data)
     console.log("cleanData", cleanData)
     return cleanData;
   },
