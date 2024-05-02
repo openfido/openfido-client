@@ -24,6 +24,7 @@ const AddPipelineForm = styled.form`
 `;
 
 const AddPipeline = ({ handleSuccess, handleCancel }) => {
+  console.log("AddPipeline", handleSuccess, handleCancel)
   const [fields, setFields] = useState({
     name: '',
     description: '',
