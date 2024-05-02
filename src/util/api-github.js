@@ -12,10 +12,9 @@ const gitApi = {
   // list for dropdown of all repositories that can generate a pipeline, cleaned of excess data
   getPotentialPipelines: async () => {
     console.log(potentialPipelines)
-    const response = await axios({
-      method: 'get',
-      url: potentialPipelines,
-    })
+    const response = await axios.get(
+      potentialPipelines,
+    )
       .then((res) => res)
       .catch((err) => console.log(err));
     console.log("response", response)
